@@ -6,13 +6,14 @@
 <body>
 <div>Register</div>
 {{#info}}
-    {{info}}
+    <div>{{info}}</div>
 {{/info}}
 <form action="/registration" method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>
+    <div><label> Email: <input type="email" name="email"/> </label></div>
     <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-    <div><input type="submit" value="Sign In"/></div>
+    <div><input type="submit" value="Register"/></div>
     <div><a href="/">Main page</a>.</div>
 </form>
 </body>
