@@ -1,6 +1,7 @@
 # MyProject
 Application Theme: 
 The site of the musical band.
+
 Application Description:
 In the application you can find
 
