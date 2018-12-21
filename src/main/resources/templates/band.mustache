@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<form action="/logout" method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    <input type="submit" value="Sign Out"/>
+</form>
+<div>
+    <form method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <input type="text" name="bandName" placeholder="Input band" />
+        <input type="text" name="genre" placeholder="Input genre" />
+        <button type="submit">Add</button>
+    </form>
+</div>
+<div>Favourite Bands:</div>
+    <form method="post" action="filter">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <input type="text" name="filter">
+        <button type="submit">Find by genre</button>
+    </form>
+{{#bands}}
+    <div>
+        <span>{{id}})</span>
+        <span>{{bandName}}</span>
+        (<i>{{genre}}</i>)
+    </div>
+{{/bands}}
+<div><a href="/cabinet">Back</a>.</div>
+<div><a href="/greeting">Greeting</a>.</div>
+<div><a href="/">Main page</a>.</div>
+</body>
+</html>
