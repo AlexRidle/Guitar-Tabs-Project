@@ -7,4 +7,5 @@ In the application you can find
 - Schedule of performances of the band.
 - Ability to download band's music and find the lyrics.
 - Find users with same musical taste.
+
 and a bit more.
