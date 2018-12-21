@@ -11,28 +11,23 @@ public class BandDbo {
     private String bandName;
     private String genre;
 
-    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private UserDbo author;
+    private String author;
 
     public BandDbo() {
     }
 
     public BandDbo(String bandName, String genre, UserDbo userDbo) {
-        this.author = userDbo;
+        this.author = userDbo.getUsername();
         this.bandName = bandName;
         this.genre = genre;
     }
 
-    public UserDbo getAuthor() {
-        return author;
+    public String getAuthor(){
+        return author != null ? author : "<none>";
     }
 
-    public String getAuthorName(){
-        return author != null ? author.getUsername() : "<none>";
-    }
-
-    public void setAuthor(UserDbo author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
