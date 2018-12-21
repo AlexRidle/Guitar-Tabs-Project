@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class BandController {
@@ -38,6 +39,12 @@ public class BandController {
     public @ResponseBody
     Iterable<BandDbo> getAllBands() {
         return bandRepository.findAll();
+    }
+
+    @GetMapping(path = "/band/id")
+    public @ResponseBody
+    Optional<BandDbo> getBandByID(@RequestParam int id) {
+        return bandRepository.findById(id);
     }
 
     @PostMapping("filter")
