@@ -1,66 +1,36 @@
 package com.project.MyProject.service;
 
-import com.project.MyProject.dbo.UserDbo;
-import com.project.MyProject.dbo.UserRoleDbo;
+import com.project.MyProject.controller.UserController;
+import com.project.MyProject.converter.TabsConverter;
+import com.project.MyProject.converter.UserConverter;
+import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.UserDto;
+import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService {
-    @Autowired
-    private UserRepository userRepository;
+public class UserService {
+
+    private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
     @Autowired
-    private MailSenderService mailSenderService;
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByUsername(username);
+    public UserService(final UserRepository userRepository, final UserConverter userConverter) {
+        this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
-    public boolean addUser(UserDbo userDbo){
-        UserDbo dbUser = userRepository.findByUsername(userDbo.getUsername());
-        if (dbUser != null) return false;
-
-        userDbo.setActive(false);
-        userDbo.setRoles(Collections.singleton(UserRoleDbo.USER));
-        userDbo.setActivationCode(UUID.randomUUID().toString());
-        userRepository.save(userDbo);
-
-        if(!StringUtils.isEmpty(userDbo.getEmail())){
-            String link = "http://localhost:8080/activate/";
-            String message = String.format(
-                    "Hello, %s! \n" +
-                            "Welcome to our band site. \n" +
-                            "To complete registration you need to click this link: \n" +
-                            link + "%s", userDbo.getUsername(), userDbo.getActivationCode());
-
-            mailSenderService.send(userDbo.getEmail(), "Activation code", message);
-        }
-
-        return true;
+    public void registerUser(final UserDto userDto) {
+        userRepository.save(userConverter.convertToDbo(userDto));
     }
 
-    public boolean activateUser(String code) {
-        UserDbo userDbo = userRepository.findByActivationCode(code);
-
-        if (userDbo == null) {
-            return false;
-        }
-
-        userDbo.setActivationCode(null);
-        userDbo.setActive(true);
-
-        userRepository.save(userDbo);
-
-        return true;
+    public List<UserDto> getUsersList() {
+        return userRepository.findAll().stream().map(userConverter::convertToDto).collect(Collectors.toList());
     }
+
 }
