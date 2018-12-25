@@ -1,14 +1,15 @@
 package com.project.MyProject.controller;
 
 import com.project.MyProject.dto.TabsDto;
-import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.service.TabsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,9 +31,19 @@ public class TabsController {
         return "Tabs added";
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String deleteTab(@PathVariable final long id){
+        if (tabsService.deleteTab(id)){
+            return "Successfully deleted tabs.";
+        }
+        return "An error occurred while deleting tabs with id" + id;
+    }
+
     @GetMapping("/all")
-    public List<TabsDto> getAllTabs() {
-        return tabsService.getTabsList();
+    public List<TabsDto> getAllTabs(
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden
+    ) {
+        return tabsService.getTabsList(hidden);
     }
 
     @GetMapping("/{id}")
@@ -41,19 +52,19 @@ public class TabsController {
     }
 
     @GetMapping("/user/{id}")
-    public List<TabsDto> getUser(@PathVariable final long id){
-        return tabsService.getUser(id);
+    public List<TabsDto> getUser(
+            @PathVariable final long id,
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden
+    ){
+        return tabsService.getUserTabs(id, hidden);
     }
 
-    @GetMapping("/artist/{artist}")
-    public List<TabsDto> getArtist(@PathVariable final String artist){
-        return tabsService.getArtist(artist);
+    @GetMapping("/search")
+    public List<TabsDto> findTabs(
+            @RequestParam(name = "artist", required = false, defaultValue = "ALL_ARTISTS") String artist,
+            @RequestParam(name = "title", required = false, defaultValue = "ALL_TITLES") String title,
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden){
+        return tabsService.findTabs(artist, title, hidden);
     }
-
-    @GetMapping("/title/{title}")
-    public List<TabsDto> getTitle(@PathVariable final String title){
-        return tabsService.getTitle(title);
-    }
-
 
 }
