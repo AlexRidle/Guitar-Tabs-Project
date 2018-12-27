@@ -15,7 +15,7 @@ Unregistered user can:
 Registered user can:
 - add tabs (/tabs/add) and remove them (/tabs/remove/{id})
 - can see his private tabs (/tabs/hidden) (like /tabs/user/{id} but returns only private with self userId) (not done yet)
-- edit self tabs (like changing "hidden" flag of tab)
+- edit self tabs by id of tab (like changing "hidden" flag of tab)
 - Can comment public tabs and delete self comments (/tabs/{id}/addcomment or /tabs/{id}/removecomment) (not done yet)
 - Have a favourites list (/tabs/favourites) (he can add every tab to this list and remove it from list in any time) and can get list of all tabs from it. 
 
