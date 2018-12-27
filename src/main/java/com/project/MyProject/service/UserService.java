@@ -1,11 +1,7 @@
 package com.project.MyProject.service;
 
-import com.project.MyProject.controller.UserController;
-import com.project.MyProject.converter.TabsConverter;
 import com.project.MyProject.converter.UserConverter;
-import com.project.MyProject.dto.TabsDto;
 import com.project.MyProject.dto.UserDto;
-import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

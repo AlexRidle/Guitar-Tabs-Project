@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,6 +66,14 @@ public class TabsController {
             @RequestParam(name = "title", required = false, defaultValue = "ALL_TITLES") String title,
             @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden){
         return tabsService.findTabs(artist, title, hidden);
+    }
+
+    @PutMapping("/update/{id}")
+    public String updateUser(@RequestBody final TabsDto tabsDto, @PathVariable final long id){
+        if (tabsService.updateTabs(tabsDto, id)){
+            return "Tabs with id " + id + " was updated.";
+        }
+        return "Cant update tabs with id " + id;
     }
 
 }

@@ -4,8 +4,7 @@ import com.project.MyProject.converter.TabsConverter;
 import com.project.MyProject.dto.TabsDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.TabsRepository;
-import com.project.MyProject.repository.UserRepository;
-import com.project.MyProject.service.exception.DatabaseException;
+import com.project.MyProject.exception.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -119,4 +118,12 @@ public class TabsService {
         return !tabs.isPresent();
     }
 
+    public boolean updateTabs(TabsDto tabsDto, long id) {
+        Optional<Tabs> tabs = tabsRepository.findById(id);
+        if (tabs.isPresent()){
+            tabsDto.setId(id);
+            return tabsRepository.save(tabsConverter.convertToDbo(tabsDto)) != null;
+        }
+        return false;
+    }
 }

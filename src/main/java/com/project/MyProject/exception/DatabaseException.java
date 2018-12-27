@@ -1,4 +1,4 @@
-package com.project.MyProject.service.exception;
+package com.project.MyProject.exception;
 
 public class DatabaseException extends RuntimeException{
 
