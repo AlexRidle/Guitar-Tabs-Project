@@ -69,7 +69,7 @@ public class TabsController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateUser(@RequestBody final TabsDto tabsDto, @PathVariable final long id){
+    public String updateTabs(@RequestBody final TabsDto tabsDto, @PathVariable final long id){
         if (tabsService.updateTabs(tabsDto, id)){
             return "Tabs with id " + id + " was updated.";
         }
