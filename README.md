@@ -8,7 +8,7 @@ There is a two types of roles: guest and admin.
 Unregistered user can:
 - watch all public tabs from users (/tabs/all)
 - get public tabs of the specific user (/tabs/user/{id})
-- find all tabs by artist or title (/tabs/title/{title} or /tabs/artist/{artist})
+- find all public tabs by artist, title or both.
 - get specific tab by id (/tabs/{id})
 - watch comments to public tabs. (/tabs/{id}/comments)
 
@@ -24,3 +24,8 @@ Admin can:
 - watch all tabs (include private)
 - remove tabs
 - lock/unlock user (?)
+
+Задание:
+- Добавить аутентификацию (JWT) с ролями user и admin, и изменить методы, чтобы в зависимости от роли и аккаунта можно было изменять/удалять свои табы или других пользователей.
+- Добавить возможность комментирования табов. 
+(какие методы и действия доступны определенной роли написаны выше)
