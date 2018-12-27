@@ -3,24 +3,30 @@ Application Theme:
 Web site with musical tabs to songs.
 
 Application Description:
-There is a two types of roles: guest and admin.
+There is a two types of roles: guest and admin. (not done yet)
 
 Unregistered user can:
 - watch all public tabs from users (/tabs/all)
 - get public tabs of the specific user (/tabs/user/{id})
-- find all tabs by artist or title (/tabs/title/{title} or /tabs/artist/{artist})
-- get specific tab by id (/tabs/{id})
-- watch comments to public tabs. (/tabs/{id}/comments)
+- find all public tabs by artist, title or both (/tabs/search).
+- get specific public tab by id (/tabs/{id})
+- watch comments to public tabs. (/tabs/{id}/comments) (not done yet)
 
-Registered user (have to active account by following the link from email) can:
+Registered user can:
 - add tabs (/tabs/add) and remove them (/tabs/remove/{id})
-- can see his private tabs (/tabs/private) 
+- can see his private tabs (/tabs/hidden) (like /tabs/user/{id} but returns only private with self userId) (not done yet)
 - swap flags from private to public and vice versa (/tabs/makePrivate/{id} or /tabs/makePublic/{id})
-- Can comment public tabs and delete self comments (/tabs/{id}/addcomment or /tabs/{id}/removecomment). 
-- Have a favourites list (/favourites) (he can add every tab to this list and remove it from list in any time) and can get list of all tabs from it. 
+- Can comment public tabs and delete self comments (/tabs/{id}/addcomment or /tabs/{id}/removecomment) (not done yet)
+- Have a favourites list (/tabs/favourites) (he can add every tab to this list and remove it from list in any time) and can get list of all tabs from it. 
 
 Admin can:
-- remove every comment
+- remove every comment (not done yet)
 - watch all tabs (include private)
-- remove tabs
+- remove tabs 
 - lock/unlock user (?)
+
+Задание:
+- Добавить spring security с использованием JWT и регистрацию пользователя для входа в систему. Создать роли user и admin. Простой пользователь может добавлять/удалять/редактировать свои табы и делать их скрытыми (чтобы их мог видеть только тот пользователь, который их и опубликовал). Админ может просматривать скрытые табы других пользователей, и так же редактировать или удалять. 
+- Добавить пользователям личный список избранных табов. Возможность добавления/удаления таба из списка. Написать Необходимый контроллер, сервис, конвертер, дто, репозиторий, и написать тесты для добавленных методов.
+
+(какие действия доступны определенной роли - описано выше)
