@@ -42,7 +42,7 @@ public class TabsController {
 
     @GetMapping("/all")
     public List<TabsDto> getAllTabs(
-            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden
     ) {
         return tabsService.getTabsList(hidden);
     }
@@ -55,16 +55,16 @@ public class TabsController {
     @GetMapping("/user/{id}")
     public List<TabsDto> getUser(
             @PathVariable final long id,
-            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden
     ){
         return tabsService.getUserTabs(id, hidden);
     }
 
     @GetMapping("/search")
     public List<TabsDto> findTabs(
-            @RequestParam(name = "artist", required = false, defaultValue = "ALL_ARTISTS") String artist,
-            @RequestParam(name = "title", required = false, defaultValue = "ALL_TITLES") String title,
-            @RequestParam(name = "hidden", required = false, defaultValue = "false") boolean hidden){
+            @RequestParam(name = "artist", required = false, defaultValue = "ALL_ARTISTS") final String artist,
+            @RequestParam(name = "title", required = false, defaultValue = "ALL_TITLES") final String title,
+            @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden){
         return tabsService.findTabs(artist, title, hidden);
     }
 

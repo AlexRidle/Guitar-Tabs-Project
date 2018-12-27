@@ -29,14 +29,14 @@ public class TabsService {
     }
 
     public TabsDto getTab(final long id) {
-        Optional<Tabs> tabs = tabsRepository.findById(id);
+        final Optional<Tabs> tabs = tabsRepository.findById(id);
         if (!tabs.isPresent()) {
             throw new DatabaseException("Tab with id " + id + " isn\'t exists.");
         }
         return tabsConverter.convertToDto(tabs.get());
     }
 
-    public List<TabsDto> getTabsList(boolean hidden) {
+    public List<TabsDto> getTabsList(final boolean hidden) {
         if (hidden) {
             return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
         } else {
@@ -44,8 +44,8 @@ public class TabsService {
         }
     }
 
-    public List<TabsDto> getUserTabs(final long id, boolean hidden) {
-        List<Tabs> tabs = tabsRepository.findByUserId(id);
+    public List<TabsDto> getUserTabs(final long id, final boolean hidden) {
+        final List<Tabs> tabs = tabsRepository.findByUserId(id);
 
         if (tabs.isEmpty()) {
             throw new DatabaseException("User with id " + id + " hasn\'t published any tabs.");
@@ -73,7 +73,7 @@ public class TabsService {
         }
 
         if (artist.equals("ALL_ARTISTS")) {
-            List<Tabs> tabs = tabsRepository.findByTitle(title);
+            final List<Tabs> tabs = tabsRepository.findByTitle(title);
             if (tabs.isEmpty()) {
                 throw new DatabaseException("Cant find any tabs with title \'" + title + "\'.");
             }
@@ -86,7 +86,7 @@ public class TabsService {
         }
 
         if (title.equals("ALL_TITLES")) {
-            List<Tabs> tabs = tabsRepository.findByArtist(artist);
+            final List<Tabs> tabs = tabsRepository.findByArtist(artist);
             if (tabs.isEmpty()) {
                 throw new DatabaseException("Cant find any tabs with artist \'" + artist + "\'.");
             }
@@ -98,7 +98,7 @@ public class TabsService {
             }
         }
 
-        List<Tabs> tabs = tabsRepository.findByArtistAndTitle(artist, title);
+        final List<Tabs> tabs = tabsRepository.findByArtistAndTitle(artist, title);
 
         if (tabs.isEmpty()) {
             throw new DatabaseException("Cant find any tabs with artist \'" + artist + "\' and title \'" + title +"\'.");
@@ -114,12 +114,12 @@ public class TabsService {
 
     public boolean deleteTab(final long id){
         tabsRepository.deleteById(id);
-        Optional <Tabs> tabs = tabsRepository.findById(id);
+        final Optional <Tabs> tabs = tabsRepository.findById(id);
         return !tabs.isPresent();
     }
 
-    public boolean updateTabs(TabsDto tabsDto, long id) {
-        Optional<Tabs> tabs = tabsRepository.findById(id);
+    public boolean updateTabs(final TabsDto tabsDto, final long id) {
+        final Optional<Tabs> tabs = tabsRepository.findById(id);
         if (tabs.isPresent()){
             tabsDto.setId(id);
             return tabsRepository.save(tabsConverter.convertToDbo(tabsDto)) != null;

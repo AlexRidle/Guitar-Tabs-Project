@@ -15,7 +15,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(final HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
                     .antMatchers("/", "/registration", "/tabs/all", "/tabs/user/*", "/tabs/search", "/tabs/{id}").permitAll()
@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     @Override
     public UserDetailsService userDetailsService() {
-        UserDetails user =
+        final UserDetails user =
                 User.withDefaultPasswordEncoder()
                         .username("user")
                         .password("password")
