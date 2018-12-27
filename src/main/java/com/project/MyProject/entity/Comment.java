@@ -13,8 +13,9 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "TABS")
-public class Tabs {
+@Table(name = "COMMENTS")
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,15 +24,6 @@ public class Tabs {
     private Long userId;
 
     @NonNull
-    private boolean hidden;
-
-    @NonNull
-    private String artist;
-
-    @NonNull
-    private String title;
-
-    @NonNull
-    private String tabsBody;
+    private String commentBody;
 
 }

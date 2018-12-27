@@ -20,7 +20,6 @@ public class MockData {
     public static UserDto userDto() {
         final UserDto userDto = new UserDto();
         userDto.setUsername("userDto username");
-        userDto.setPassword("userDto password");
         userDto.setEmail("userDto email");
         return userDto;
     }

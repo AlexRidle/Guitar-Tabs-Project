@@ -18,7 +18,6 @@ public class UserConverterTest {
         final UserDto userDto = userConverter.convertToDto(user);
         assertEquals(user.getUsername(), userDto.getUsername());
         assertEquals(user.getEmail(), userDto.getEmail());
-        assertEquals(user.getPassword(), userDto.getPassword());
     }
 
     @Test
@@ -27,7 +26,6 @@ public class UserConverterTest {
         final User user = userConverter.convertToDbo(userDto);
         assertEquals(userDto.getUsername(), user.getUsername());
         assertEquals(userDto.getEmail(), user.getEmail());
-        assertEquals(userDto.getPassword(), user.getPassword());
     }
 
 }

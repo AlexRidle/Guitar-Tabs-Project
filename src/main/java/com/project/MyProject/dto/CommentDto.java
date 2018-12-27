@@ -1,13 +1,12 @@
 package com.project.MyProject.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class UserDto {
+public class CommentDto {
     private Long id;
-    private String username;
-    private String email;
+    private Long userId;
+    private String commentBody;
 }
