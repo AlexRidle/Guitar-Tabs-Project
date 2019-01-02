@@ -28,6 +28,9 @@ public class User {
     @NonNull
     private String email;
 
+    @NonNull
+    private String role;
+
     private boolean active;
     private String activationCode;
 

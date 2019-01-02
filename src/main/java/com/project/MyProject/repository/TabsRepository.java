@@ -20,4 +20,6 @@ public interface TabsRepository extends JpaRepository<Tabs, Long> {
 
     List<Tabs> findByArtistAndTitle(String artist, String title);
     List<Tabs> findByArtistAndTitleAndHiddenIsFalse(String artist, String title);
+
+    Tabs getById(Long id);
 }

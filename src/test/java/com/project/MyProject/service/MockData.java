@@ -1,6 +1,7 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.UpdateTabDto;
 import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
@@ -9,11 +10,13 @@ public class MockData {
 
     public static User user() {
         final User user = new User();
+        user.setId(1L);
         user.setUsername("user username");
         user.setPassword("user password");
         user.setEmail("user email");
         user.setActive(true);
         user.setActivationCode("user activationCode");
+        user.setRole("USER");
         return user;
     }
 
@@ -26,8 +29,9 @@ public class MockData {
 
     public static Tabs tabs() {
         final Tabs tabs = new Tabs();
-        tabs.setUserId(100L);
-        tabs.setHidden(true);
+        tabs.setId(new Long(1));
+        tabs.setUserId(1L);
+        tabs.setHidden(false);
         tabs.setArtist("tabs artist");
         tabs.setTitle("tabs title");
         tabs.setTabsBody("tabs body");
@@ -42,6 +46,14 @@ public class MockData {
         tabsDto.setTitle("tabsDto title");
         tabsDto.setTabsBody("tabsDto body");
         return tabsDto;
+    }
+
+    public static UpdateTabDto updateTabDto() {
+        final UpdateTabDto updateTabDto = new UpdateTabDto();
+        updateTabDto.setArtist("new artist");
+        updateTabDto.setTabsBody("new tabs body");
+        updateTabDto.setTitle("new title");
+        return updateTabDto;
     }
 
 }
