@@ -2,12 +2,17 @@ package com.project.MyProject.service;
 
 import com.project.MyProject.converter.TabsConverter;
 import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.exception.DatabaseException;
+import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,11 +22,13 @@ public class TabsService {
 
     private final TabsRepository tabsRepository;
     private final TabsConverter tabsConverter;
+    private final UserRepository userRepository;
 
     @Autowired
-    public TabsService(final TabsRepository tabsRepository, final TabsConverter tabsConverter) {
+    public TabsService(final TabsRepository tabsRepository, final TabsConverter tabsConverter, final UserRepository userRepository) {
         this.tabsRepository = tabsRepository;
         this.tabsConverter = tabsConverter;
+        this.userRepository = userRepository;
     }
 
     public void createTabs(final TabsDto tabsDto) {
@@ -36,11 +43,18 @@ public class TabsService {
         return tabsConverter.convertToDto(tabs.get());
     }
 
-    public List<TabsDto> getTabsList(final boolean hidden) {
-        if (hidden) {
+    public List<TabsDto> getTabsList(final Authentication auth) {
+        if (auth.getName().equals("anonymousUser")) return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ADMIN"))
             return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
-        } else {
-            return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+        else {
+            final List<TabsDto> list = tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+            final List<TabsDto> newList = new LinkedList<>();
+            for (TabsDto tab : list) {
+                if (tab.getUserId()==userRepository.findByUsername(auth.getName()).getId()) newList.add(tab);
+                else if (!tab.isHidden()) newList.add(tab);
+            }
+            return newList;
         }
     }
 
@@ -112,18 +126,40 @@ public class TabsService {
 
     }
 
-    public boolean deleteTab(final long id){
-        tabsRepository.deleteById(id);
-        final Optional <Tabs> tabs = tabsRepository.findById(id);
-        return !tabs.isPresent();
+    public String deleteTab(final long id, final String login){
+        if (tabsRepository.existsById(id)){
+            if (userRepository.findByUsername(login).getRole().equals("ADMIN") ||
+                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()) {
+                final Tabs tab = tabsRepository.getById(id);
+                tabsRepository.delete(tab);
+                return  "Tab с ID № "+id+" был удалён";
+            } else return "Вы не можите удалить этот tab";
+        } else return "Неверный id";
     }
 
-    public boolean updateTabs(final TabsDto tabsDto, final long id) {
-        final Optional<Tabs> tabs = tabsRepository.findById(id);
-        if (tabs.isPresent()){
-            tabsDto.setId(id);
-            return tabsRepository.save(tabsConverter.convertToDbo(tabsDto)) != null;
-        }
-        return false;
+    public String updateTabs(final UpdateTabDto updateTabDto, final long id, final String login) {
+        if (tabsRepository.existsById(id)){
+            if (userRepository.findByUsername(login).getRole().equals("ADMIN") ||
+                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()) {
+                final Tabs tab = tabsRepository.getById(id);
+                tab.setArtist(updateTabDto.getArtist());
+                tab.setTitle(updateTabDto.getTitle());
+                tab.setTabsBody(updateTabDto.getTabsBody());
+                tabsRepository.save(tab);
+                return  "Tab с ID № "+id+" был изменён";
+            } else return "Вы не можите изменить этот tab";
+        } else return "Неверный id";
+    }
+
+    public String setHidden(final Long id, final String login){
+        if (tabsRepository.existsById(id)){
+            if (userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()){
+                final Tabs tab = tabsRepository.getById(id);
+                if (tab.isHidden()) tab.setHidden(false);
+                else tab.setHidden(true);
+                tabsRepository.save(tab);
+                return  "Измененно на "+tab.isHidden();
+            } else return "Вы не можите редактировать этот tab";
+        } else return "Неверный id";
     }
 }

@@ -1,8 +1,11 @@
 package com.project.MyProject.controller;
 
 import com.project.MyProject.dto.UserDto;
+import com.project.MyProject.repository.UserRepository;
 import com.project.MyProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,4 +35,14 @@ public class UserController {
     public List<UserDto> getAllUsers() {
         return userService.getUsersList();
     }
+
+    @PostMapping("/admin_test")
+    public String getAminTest() {
+        if (userService.protect(SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName())) return "Admin";
+        else return "User";
+    }
+
 }

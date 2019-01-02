@@ -1,8 +1,10 @@
 package com.project.MyProject.controller;
 
 import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.UpdateTabDto;
 import com.project.MyProject.service.TabsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,17 +36,17 @@ public class TabsController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteTab(@PathVariable final long id){
-        if (tabsService.deleteTab(id)){
-            return "Successfully deleted tabs.";
-        }
-        return "An error occurred while deleting tabs with id" + id;
+        return  tabsService.deleteTab(id,SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
     }
 
     @GetMapping("/all")
-    public List<TabsDto> getAllTabs(
-            @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden
-    ) {
-        return tabsService.getTabsList(hidden);
+    public List<TabsDto> getAllTabs() {
+        return tabsService.getTabsList(SecurityContextHolder
+                .getContext()
+                .getAuthentication());
     }
 
     @GetMapping("/{id}")
@@ -69,11 +71,19 @@ public class TabsController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateTabs(@RequestBody final TabsDto tabsDto, @PathVariable final long id){
-        if (tabsService.updateTabs(tabsDto, id)){
-            return "Tabs with id " + id + " was updated.";
-        }
-        return "Cant update tabs with id " + id;
+    public String updateTabs(@RequestBody final UpdateTabDto updateTabDto, @PathVariable final long id){
+        return  tabsService.updateTabs(updateTabDto, id, SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
+    }
+
+    @PutMapping("/set_hidden/{id}")
+    public String setHiddenTabs(@PathVariable final long id){
+        return tabsService.setHidden(id, SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
     }
 
 }

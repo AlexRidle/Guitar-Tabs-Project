@@ -18,7 +18,14 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
     @Override
     public User convertToDbo(final UserDto userDto) {
         final User user = new User();
-        BeanUtils.copyProperties(userDto, user);
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setActive(true);
+        user.setActivationCode("NULL");
+        if (userDto.getUsername().equals("root"))
+            user.setRole("ROLE_ADMIN");
+        else user.setRole("ROLE_USER");
         return user;
     }
 
