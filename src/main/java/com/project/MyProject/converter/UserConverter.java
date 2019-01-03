@@ -22,7 +22,6 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
         user.setPassword(userDto.getPassword());
         user.setEmail(userDto.getEmail());
         user.setActive(true);
-        user.setActivationCode("NULL");
         if (userDto.getUsername().equals("root"))
             user.setRole("ROLE_ADMIN");
         else user.setRole("ROLE_USER");

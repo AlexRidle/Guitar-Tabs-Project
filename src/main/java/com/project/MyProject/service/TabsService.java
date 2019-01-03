@@ -36,16 +36,16 @@ public class TabsService {
     }
 
     public TabsDto getTab(final long id) {
-        final Optional<Tabs> tabs = tabsRepository.findById(id);
-        if (!tabs.isPresent()) {
+        if (!tabsRepository.existsById(id)) {
             throw new DatabaseException("Tab with id " + id + " isn\'t exists.");
         }
-        return tabsConverter.convertToDto(tabs.get());
+        return tabsConverter.convertToDto(tabsRepository.findById(id).get());
     }
 
     public List<TabsDto> getTabsList(final Authentication auth) {
-        if (auth.getName().equals("anonymousUser")) return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
-        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ADMIN"))
+        if (auth.getName().equals("anonymousUser"))
+            return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ROLE_ADMIN"))
             return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
         else {
             final List<TabsDto> list = tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
@@ -129,7 +129,7 @@ public class TabsService {
     public String deleteTab(final long id, final String login){
         if (tabsRepository.existsById(id)){
             if (userRepository.findByUsername(login).getRole().equals("ADMIN") ||
-                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()) {
+                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUser().getId()) {
                 final Tabs tab = tabsRepository.getById(id);
                 tabsRepository.delete(tab);
                 return  "Tab с ID № "+id+" был удалён";
@@ -140,7 +140,7 @@ public class TabsService {
     public String updateTabs(final UpdateTabDto updateTabDto, final long id, final String login) {
         if (tabsRepository.existsById(id)){
             if (userRepository.findByUsername(login).getRole().equals("ADMIN") ||
-                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()) {
+                    userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUser().getId()) {
                 final Tabs tab = tabsRepository.getById(id);
                 tab.setArtist(updateTabDto.getArtist());
                 tab.setTitle(updateTabDto.getTitle());
@@ -153,7 +153,7 @@ public class TabsService {
 
     public String setHidden(final Long id, final String login){
         if (tabsRepository.existsById(id)){
-            if (userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUserId()){
+            if (userRepository.findByUsername(login).getId()==tabsRepository.getById(id).getUser().getId()){
                 final Tabs tab = tabsRepository.getById(id);
                 if (tab.isHidden()) tab.setHidden(false);
                 else tab.setHidden(true);

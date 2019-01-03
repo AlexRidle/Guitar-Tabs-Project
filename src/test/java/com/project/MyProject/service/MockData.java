@@ -15,7 +15,6 @@ public class MockData {
         user.setPassword("user password");
         user.setEmail("user email");
         user.setActive(true);
-        user.setActivationCode("user activationCode");
         user.setRole("USER");
         return user;
     }
@@ -29,8 +28,8 @@ public class MockData {
 
     public static Tabs tabs() {
         final Tabs tabs = new Tabs();
-        tabs.setId(new Long(1));
-        tabs.setUserId(1L);
+        tabs.setId(1L);
+        tabs.setUser(user());
         tabs.setHidden(false);
         tabs.setArtist("tabs artist");
         tabs.setTitle("tabs title");

@@ -68,7 +68,7 @@ public class TabServiceTest {
         verify(tabsRepository, times(1)).delete(tab);
         assertEquals("Tab с ID № "+tab.getId()+" был удалён", answer1);
 
-        tab.setUserId(2L);
+        tab.setUser(MockData.user());
         user.setRole("ADMIN");
 
         final String answer2 = tabsService.deleteTab(tab.getId(), user.getUsername());
@@ -105,7 +105,7 @@ public class TabServiceTest {
         tab.setArtist("tabs artist");
         tab.setTitle("tabs title");
         tab.setTabsBody("tabs body");
-        tab.setUserId(2L);
+        tab.setUser(MockData.user());
         user.setRole("ADMIN");
 
         final String answer2 = tabsService.updateTabs(updateTabDto, tab.getId(), user.getUsername());

@@ -11,13 +11,17 @@ public class CommentConverter implements DtoEntityConverter<CommentDto, Comment>
     @Override
     public CommentDto convertToDto(final Comment entity) {
         final CommentDto commentDto = new CommentDto();
-        BeanUtils.copyProperties(entity, commentDto);
+        commentDto.setCommentBody(entity.getCommentBody());
+        commentDto.setId(entity.getId());
+        commentDto.setUserId(entity.getUser().getId());
+        commentDto.setTabsId(entity.getTabs().getId());
         return commentDto;
     }
 
     @Override
     public Comment convertToDbo(final CommentDto commentDto) {
         final Comment comment = new Comment();
+        //get user id from authorization
         BeanUtils.copyProperties(commentDto, comment);
         return comment;
     }

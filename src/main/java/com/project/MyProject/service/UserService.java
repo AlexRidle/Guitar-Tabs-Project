@@ -37,6 +37,8 @@ public class UserService {
 
     public Boolean protect(final String login){
         if (userRepository.findByUsername(login).getRole().equals("ADMIN"))
-            return true; else return false;
+            return true;
+        else
+            return false;
     }
 }

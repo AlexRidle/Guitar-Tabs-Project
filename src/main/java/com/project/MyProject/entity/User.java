@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,21 +18,21 @@ import javax.persistence.Table;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @NonNull
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @NonNull
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @NonNull
+    @Column(name = "email", nullable = false)
     private String email;
 
-    @NonNull
+    @Column(name = "role", nullable = false)
     private String role;
 
+    @Column(name = "active", nullable = false)
     private boolean active;
-    private String activationCode;
-
 }
