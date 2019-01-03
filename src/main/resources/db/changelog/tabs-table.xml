@@ -11,7 +11,7 @@
             </column>
 
             <column name="user_id" type="BIGINT(19)">
-                <constraints nullable="false" foreignKeyName="fk_user_id" references="user(id)"/>
+                <constraints nullable="false" foreignKeyName="fk_tabs_user_id" references="user(id)"/>
             </column>
 
             <column name="artist" type="VARCHAR(100)" defaultValue="unknown">

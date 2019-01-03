@@ -7,15 +7,17 @@
         <createTable tableName="comments">
 
             <column autoIncrement="true" name="id" type="BIGINT(19)" startWith="1">
-                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="PK_comments_id"/>
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="PK_comment_id"/>
             </column>
 
             <column name="user_id" type="BIGINT(19)">
-                <constraints nullable="false" foreignKeyName="fk_comment-user_id" references="user(id)"/>
+                <constraints nullable="false" primaryKeyName="PK_comment_user_id" primaryKey="true"
+                             foreignKeyName="fk_comment_user_id" references="user(id)"/>
             </column>
 
             <column name="tabs_id" type="BIGINT(19)">
-                <constraints nullable="false" foreignKeyName="fk_comment-tabs_id" references="tabs(id)"/>
+                <constraints nullable="false" primaryKeyName="PK_comment_tabs_id" primaryKey="true"
+                             foreignKeyName="fk_comment_tabs_id" references="tabs(id)"/>
             </column>
 
             <column name="comment_body" type="TEXT">

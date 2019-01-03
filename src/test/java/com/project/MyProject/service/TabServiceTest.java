@@ -41,12 +41,12 @@ public class TabServiceTest {
         doReturn(user).when(userRepository).findByUsername(user.getUsername());
         doReturn(tab).when(tabsRepository).getById(tab.getId());
 
-        final String answer1 = tabsService.setHidden(tab.getId(), user.getUsername());
+        final String answer1 = tabsService.swapHidden(tab.getId(), user.getUsername());
 
         assertEquals(true, tab.isHidden());
         assertEquals("Измененно на "+tab.isHidden(), answer1);
 
-        final String answer2 = tabsService.setHidden(tab.getId(), user.getUsername());
+        final String answer2 = tabsService.swapHidden(tab.getId(), user.getUsername());
 
         verify(tabsRepository, times(2)).save(tab);
         assertEquals(false, tab.isHidden());

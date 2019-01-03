@@ -19,8 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    public WebSecurityConfig(final UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -30,9 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/user/register").permitAll()
                     .antMatchers("/tabs/all").permitAll()
-                    .antMatchers("/tabs/user/**").permitAll()
+                    .antMatchers("/tabs/user").permitAll()
                     .antMatchers("/tabs/search").permitAll()
-                    .antMatchers("/tabs/{id}").permitAll()
+                    .antMatchers("/tabs/tab").permitAll()
                     .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .anyRequest().authenticated()
                 .and()

@@ -3,14 +3,17 @@ package com.project.MyProject.converter;
 import com.project.MyProject.service.MockData;
 import com.project.MyProject.dto.TabsDto;
 import com.project.MyProject.entity.Tabs;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class TabsConverterTest {
 
-    private final TabsConverter tabsConverter = new TabsConverter();
+    private final TabsConverter tabsConverter;
+
+    public TabsConverterTest(final TabsConverter tabsConverter) {
+        this.tabsConverter = tabsConverter;
+    }
 
     @Test
     public void convertToDto() {

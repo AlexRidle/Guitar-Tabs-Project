@@ -3,7 +3,6 @@ package com.project.MyProject.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.ToString;
 
 import javax.persistence.Column;
