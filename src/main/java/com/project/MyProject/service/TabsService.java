@@ -43,21 +43,6 @@ public class TabsService {
         return tabsConverter.convertToDto(tabs.get());
     }
 
-    public List<TabsDto> getTabsList(final Authentication auth) {
-        if (auth.getName().equals("anonymousUser")) return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
-        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ADMIN"))
-            return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
-        else {
-            final List<TabsDto> list = tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
-            final List<TabsDto> newList = new LinkedList<>();
-            for (TabsDto tab : list) {
-                if (tab.getUserId()==userRepository.findByUsername(auth.getName()).getId()) newList.add(tab);
-                else if (!tab.isHidden()) newList.add(tab);
-            }
-            return newList;
-        }
-    }
-
     public List<TabsDto> getUserTabs(final long id, final boolean hidden) {
         final List<Tabs> tabs = tabsRepository.findByUserId(id);
 
@@ -126,6 +111,7 @@ public class TabsService {
 
     }
 
+    /*author Stanislav Patskevich */
     public String deleteTab(final long id, final String login){
         if (tabsRepository.existsById(id)){
             if (userRepository.findByUsername(login).getRole().equals("ADMIN") ||
@@ -161,5 +147,20 @@ public class TabsService {
                 return  "Измененно на "+tab.isHidden();
             } else return "Вы не можите редактировать этот tab";
         } else return "Неверный id";
+    }
+
+    public List<TabsDto> getTabsList(final Authentication auth) {
+        if (auth.getName().equals("anonymousUser")) return tabsRepository.findAllByHiddenIsFalse().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ADMIN"))
+            return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+        else {
+            final List<TabsDto> list = tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
+            final List<TabsDto> newList = new LinkedList<>();
+            for (TabsDto tab : list) {
+                if (tab.getUserId()==userRepository.findByUsername(auth.getName()).getId()) newList.add(tab);
+                else if (!tab.isHidden()) newList.add(tab);
+            }
+            return newList;
+        }
     }
 }
