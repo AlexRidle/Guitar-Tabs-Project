@@ -1,6 +1,6 @@
 package com.project.MyProject.converter;
 
-import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.BeanUtils;

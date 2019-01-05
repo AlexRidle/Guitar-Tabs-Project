@@ -1,8 +1,8 @@
 package com.project.MyProject.controller;
 
-import com.project.MyProject.dto.CommentDto;
-import com.project.MyProject.dto.CreateCommentDto;
-import com.project.MyProject.dto.UpdateCommentDto;
+import com.project.MyProject.dto.comment.CommentDto;
+import com.project.MyProject.dto.comment.CreateCommentDto;
+import com.project.MyProject.dto.comment.UpdateCommentDto;
 import com.project.MyProject.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

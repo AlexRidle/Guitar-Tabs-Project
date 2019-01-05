@@ -1,7 +1,7 @@
 package com.project.MyProject.converter;
 
 import com.project.MyProject.service.MockData;
-import com.project.MyProject.dto.TabsDto;
+import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.Tabs;
 import org.junit.Test;
 

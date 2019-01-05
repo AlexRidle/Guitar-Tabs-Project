@@ -1,11 +1,10 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.converter.CommentConverter;
-import com.project.MyProject.dto.CommentDto;
-import com.project.MyProject.dto.CreateCommentDto;
-import com.project.MyProject.dto.UpdateCommentDto;
+import com.project.MyProject.dto.comment.CommentDto;
+import com.project.MyProject.dto.comment.CreateCommentDto;
+import com.project.MyProject.dto.comment.UpdateCommentDto;
 import com.project.MyProject.entity.Comment;
-import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.repository.CommentRepository;
 import com.project.MyProject.repository.TabsRepository;

@@ -1,8 +1,8 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.converter.TabsConverter;
-import com.project.MyProject.dto.TabsDto;
-import com.project.MyProject.dto.UpdateTabDto;
+import com.project.MyProject.dto.tabs.TabsDto;
+import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.repository.TabsRepository;
@@ -12,10 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

@@ -1,7 +1,7 @@
 package com.project.MyProject.service;
 
-import com.project.MyProject.dto.TabsDto;
-import com.project.MyProject.dto.UpdateTabDto;
+import com.project.MyProject.dto.tabs.TabsDto;
+import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;

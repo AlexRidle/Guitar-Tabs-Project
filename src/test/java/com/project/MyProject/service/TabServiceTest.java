@@ -1,7 +1,7 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.converter.TabsConverter;
-import com.project.MyProject.dto.UpdateTabDto;
+import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.repository.TabsRepository;

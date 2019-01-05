@@ -1,6 +1,6 @@
 package com.project.MyProject.converter;
 
-import com.project.MyProject.dto.CommentDto;
+import com.project.MyProject.dto.comment.CommentDto;
 import com.project.MyProject.entity.Comment;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;

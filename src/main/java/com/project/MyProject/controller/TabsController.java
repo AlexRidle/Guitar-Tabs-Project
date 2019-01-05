@@ -1,13 +1,12 @@
 package com.project.MyProject.controller;
 
-import com.project.MyProject.dto.TabsDto;
-import com.project.MyProject.dto.UpdateTabDto;
+import com.project.MyProject.dto.tabs.TabsDto;
+import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.service.TabsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
