@@ -2,7 +2,6 @@ package com.project.MyProject.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,8 +29,10 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
+//    @Enumerated(value = EnumType.STRING)
     @Column(name = "role", nullable = false)
     private String role;
+//    private UserRole role;
 
     @Column(name = "active", nullable = false)
     private boolean active;

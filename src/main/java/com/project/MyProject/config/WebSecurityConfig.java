@@ -32,7 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         http.csrf().disable()
                 .authorizeRequests()
+                    .antMatchers("/*", "/VAADIN/**").permitAll()
                     .antMatchers("/user/register").permitAll()
+                    .antMatchers("/comment/tab").permitAll()
                     .antMatchers("/tabs/all").permitAll()
                     .antMatchers("/tabs/user").permitAll()
                     .antMatchers("/tabs/search").permitAll()
