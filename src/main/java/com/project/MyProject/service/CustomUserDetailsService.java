@@ -21,8 +21,12 @@ import java.util.List;
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
 
+    private final UserService userService;
+
     @Autowired
-    UserService userService;
+    public CustomUserDetailsService(final UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
@@ -34,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), encoder().encode(user.getPassword()), true, true, true,
-                true, getAuthorities(user.getRole()));
+                true, getAuthorities(user.getRole().name()));
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(

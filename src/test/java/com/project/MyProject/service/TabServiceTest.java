@@ -4,6 +4,7 @@ import com.project.MyProject.converter.TabsConverter;
 import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
 import org.junit.Test;
@@ -13,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -43,13 +46,13 @@ public class TabServiceTest {
 
         final String answer1 = tabsService.swapHidden(tab.getId(), user.getUsername());
 
-        assertEquals(true, tab.isHidden());
+        assertTrue(tab.isHidden());
         assertEquals("Измененно на "+tab.isHidden(), answer1);
 
         final String answer2 = tabsService.swapHidden(tab.getId(), user.getUsername());
 
         verify(tabsRepository, times(2)).save(tab);
-        assertEquals(false, tab.isHidden());
+        assertFalse(tab.isHidden());
         assertEquals("Измененно на "+tab.isHidden(), answer2);
     }
 
@@ -69,14 +72,14 @@ public class TabServiceTest {
         assertEquals("Tab с ID № "+tab.getId()+" был удалён", answer1);
 
         tab.setUser(MockData.user());
-        user.setRole("ADMIN");
+        user.setRole(UserRole.ADMIN);
 
         final String answer2 = tabsService.deleteTab(tab.getId(), user.getUsername());
 
         verify(tabsRepository, times(2)).delete(tab);
         assertEquals("Tab с ID № "+tab.getId()+" был удалён", answer2);
 
-        user.setRole("USER");
+        user.setRole(UserRole.USER);
 
         final String answer3 = tabsService.deleteTab(tab.getId(), user.getUsername());
 
@@ -106,7 +109,7 @@ public class TabServiceTest {
         tab.setTitle("tabs title");
         tab.setTabsBody("tabs body");
         tab.setUser(MockData.user());
-        user.setRole("ADMIN");
+        user.setRole(UserRole.ADMIN);
 
         final String answer2 = tabsService.updateTabs(updateTabDto, tab.getId(), user.getUsername());
 
@@ -116,7 +119,7 @@ public class TabServiceTest {
         assertEquals(updateTabDto.getArtist(), tab.getArtist());
         assertEquals("Tab с ID № "+tab.getId()+" был изменён", answer2);
 
-        user.setRole("USER");
+        user.setRole(UserRole.USER);
 
         final String answer3 = tabsService.updateTabs(updateTabDto, tab.getId(), user.getUsername());
 

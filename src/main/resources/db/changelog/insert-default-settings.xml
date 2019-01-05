@@ -9,7 +9,7 @@
             <column name="password" value="password"/>
             <column name="email" value="user@mail.mail"/>
             <column name="active" value="1"/>
-            <column name="role" value="ROLE_USER"/>
+            <column name="role" value="USER"/>
         </insert>
         <insert tableName="TABS">
             <column name="id" valueNumeric="1"/>
@@ -41,7 +41,7 @@
             <column name="password" value="password"/>
             <column name="email" value="admin@mail.mail"/>
             <column name="active" value="1"/>
-            <column name="role" value="ROLE_ADMIN"/>
+            <column name="role" value="ADMIN"/>
         </insert>
         <insert tableName="TABS">
             <column name="id" valueNumeric="3"/>

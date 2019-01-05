@@ -40,6 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/tabs/search").permitAll()
                     .antMatchers("/tabs/tab").permitAll()
                     .antMatchers(HttpMethod.POST,"/login").permitAll()
+//                    .antMatchers("/user/all").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 // We filter the api/login requests
@@ -63,8 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth
-                .userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
     }
 

@@ -2,6 +2,7 @@ package com.project.MyProject.converter;
 
 import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,8 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
         user.setEmail(userDto.getEmail());
         user.setActive(true);
         if (userDto.getUsername().equals("root"))
-            user.setRole("ROLE_ADMIN");
-        else user.setRole("ROLE_USER");
+            user.setRole(UserRole.ADMIN);
+        else user.setRole(UserRole.USER);
         return user;
     }
 

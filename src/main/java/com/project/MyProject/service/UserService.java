@@ -3,6 +3,7 @@ package com.project.MyProject.service;
 import com.project.MyProject.converter.UserConverter;
 import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,6 @@ public class UserService {
     }
 
     public Boolean protect(final String login){
-        return userRepository.findByUsername(login).getRole().equals("ROLE_ADMIN");
+        return userRepository.findByUsername(login).getRole().equals(UserRole.ADMIN);
     }
 }

@@ -5,6 +5,7 @@ import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.exception.DatabaseException;
 import com.project.MyProject.repository.UserRepository;
@@ -43,9 +44,9 @@ public class TabsService {
                 e.printStackTrace();
             }
         }
-        Tabs tab = tabsRepository.findById(id).get();
+        Tabs tab = tabsRepository.getById(id);
 
-        if (userRepository.findByUsername(auth.getName()).getRole().equals("ROLE_ADMIN"))
+        if (userRepository.findByUsername(auth.getName()).getRole().equals(UserRole.ADMIN))
             return tabsConverter.convertToDto(tab);
         else {
             if (tab.getUser().getId()
@@ -68,7 +69,7 @@ public class TabsService {
             return tabsRepository.findAllByHiddenIsFalse()
                     .stream().map(tabsConverter::convertToDto)
                     .collect(Collectors.toList());
-        else if (userRepository.findByUsername(auth.getName()).getRole().equals("ROLE_ADMIN"))
+        else if (userRepository.findByUsername(auth.getName()).getRole().equals(UserRole.ADMIN))
             return tabsRepository.findAll().stream().map(tabsConverter::convertToDto).collect(Collectors.toList());
         else {
             final List<TabsDto> list = tabsRepository.findAll()
@@ -96,7 +97,7 @@ public class TabsService {
 
         if (hidden) {
             if (!auth.getName().equals("anonymousUser")
-                    && userRepository.findByUsername(auth.getName()).getRole().equals("ROLE_ADMIN")) {
+                    && userRepository.findByUsername(auth.getName()).getRole().equals(UserRole.ADMIN)) {
                 return tabsRepository.findByUserId(id)
                         .stream().map(tabsConverter::convertToDto)
                         .collect(Collectors.toList());
@@ -112,7 +113,7 @@ public class TabsService {
 
         if (hidden) {
             if (auth.getName().equals("anonymousUser")
-                    || !userRepository.findByUsername(auth.getName()).getRole().equals("ROLE_ADMIN")) {
+                    || !userRepository.findByUsername(auth.getName()).getRole().equals(UserRole.ADMIN)) {
                 hidden = false;
             }
         }
@@ -171,7 +172,7 @@ public class TabsService {
         User user = userRepository.findByUsername(username);
         if (tabsRepository.existsById(id)) {
             final Tabs tab = tabsRepository.getById(id);
-            if (user.getRole().equals("ROLE_ADMIN")
+            if (user.getRole().equals(UserRole.ADMIN)
                     || user.getId().equals(tab.getUser().getId())) {
                 tabsRepository.delete(tab);
                 return "Tab with id " + id + " has been deleted";
@@ -183,7 +184,7 @@ public class TabsService {
         if (tabsRepository.existsById(id)) {
             final User user = userRepository.findByUsername(username);
             final Tabs tab = tabsRepository.getById(id);
-            if (user.getRole().equals("ROLE_ADMIN")
+            if (user.getRole().equals(UserRole.ADMIN)
                     || user.getId().equals(tab.getUser().getId())) {
                 tab.setArtist(updateTabDto.getArtist());
                 tab.setTitle(updateTabDto.getTitle());

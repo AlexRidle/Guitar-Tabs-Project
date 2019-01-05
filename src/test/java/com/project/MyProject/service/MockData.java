@@ -5,6 +5,7 @@ import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.dto.UserDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 
 public class MockData {
 
@@ -15,7 +16,7 @@ public class MockData {
         user.setPassword("user password");
         user.setEmail("user email");
         user.setActive(true);
-        user.setRole("USER");
+        user.setRole(UserRole.USER);
         return user;
     }
 

@@ -6,6 +6,7 @@ import com.project.MyProject.dto.comment.CreateCommentDto;
 import com.project.MyProject.dto.comment.UpdateCommentDto;
 import com.project.MyProject.entity.Comment;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.CommentRepository;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
@@ -23,7 +24,7 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Autowired
-    public CommentService(final CommentRepository commentRepository, final TabsRepository tabsRepository, final CommentConverter commentConverter, final UserRepository userRepository) {
+    public CommentService(final CommentRepository commentRepository, final CommentConverter commentConverter, final UserRepository userRepository) {
         this.commentConverter = commentConverter;
         this.commentRepository = commentRepository;
         this.userRepository = userRepository;
@@ -45,7 +46,7 @@ public class CommentService {
         if (commentRepository.existsById(id)) {
             final User user = userRepository.findByUsername(username);
             final Comment comment = commentRepository.getById(id);
-            if (user.getRole().equals("ROLE_ADMIN")
+            if (user.getRole().equals(UserRole.ADMIN)
                     || comment.getUser().getId().equals(user.getId())
                     || comment.getTabs().getId().equals(user.getId())) {
                 commentRepository.delete(comment);
