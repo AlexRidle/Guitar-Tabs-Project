@@ -1,7 +1,7 @@
 package com.project.MyProject.config;
 
-import com.project.MyProject.config.jwt.JWTAuthenticationFilter;
-import com.project.MyProject.config.jwt.JWTLoginFilter;
+import com.project.MyProject.security.JWTAuthenticationFilter;
+import com.project.MyProject.security.JWTLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
