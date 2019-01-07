@@ -43,7 +43,7 @@ public class TabsService {
         final User user = userRepository.findByUsername(username);
         if (user != null){
             final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
-            for (long tabId : idsTabs) {
+            for (final long tabId : idsTabs) {
                 user.getTabsSet().add(tabsRepository.getById(tabId));
             }
             final User savedUser = userRepository.save(user);
