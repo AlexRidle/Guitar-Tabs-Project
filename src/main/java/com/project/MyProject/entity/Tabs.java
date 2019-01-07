@@ -40,5 +40,4 @@ public class Tabs {
 
     @Column(name = "tabs_body", nullable = false)
     private String tabsBody;
-
 }

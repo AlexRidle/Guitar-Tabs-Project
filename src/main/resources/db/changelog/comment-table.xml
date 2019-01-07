@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet id="1.0" author="bely">
 
-        <createTable tableName="comments">
+        <createTable tableName="COMMENTS">
 
             <column autoIncrement="true" name="id" type="BIGINT(19)" startWith="1">
                 <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="PK_comment_id"/>
@@ -12,12 +12,12 @@
 
             <column name="user_id" type="BIGINT(19)">
                 <constraints nullable="false" primaryKeyName="PK_comment_user_id" primaryKey="true"
-                             foreignKeyName="fk_comment_user_id" references="user(id)"/>
+                             foreignKeyName="fk_comment_user_id" references="USER(id)"/>
             </column>
 
             <column name="tabs_id" type="BIGINT(19)">
                 <constraints nullable="false" primaryKeyName="PK_comment_tabs_id" primaryKey="true"
-                             foreignKeyName="fk_comment_tabs_id" references="tabs(id)"/>
+                             foreignKeyName="fk_comment_tabs_id" references="TABS(id)"/>
             </column>
 
             <column name="comment_body" type="TEXT">

@@ -1,9 +1,12 @@
 package com.project.MyProject.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.enumeration.UserRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -13,4 +16,5 @@ public class UserDto {
     private String password;
     private String email;
     private UserRole role = UserRole.USER;
+    private Set<TabsDto> tabsSet = new HashSet<>();
 }

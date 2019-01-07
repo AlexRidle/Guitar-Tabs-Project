@@ -2,16 +2,13 @@ package com.project.MyProject.entity;
 
 import com.project.MyProject.enumeration.UserRole;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -38,4 +35,12 @@ public class User {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "FAVOURITES",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "tabs_id"))
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Set<Tabs> tabsSet = new HashSet<>();
 }

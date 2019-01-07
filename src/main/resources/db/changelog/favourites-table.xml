@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="1.0" author="burachenko">
+
+        <createTable tableName="FAVOURITES">
+
+            <column name="tabs_id" type="BIGINT(19)">
+                <constraints primaryKey="true" primaryKeyName="PK_fav_tabs_id"
+                             foreignKeyName="fk_fav_tabs_id" references="TABS(id)"/>
+            </column>
+
+            <column name="user_id" type="BIGINT(19)">
+                <constraints primaryKey="true" primaryKeyName="PK_fav_user_id"
+                             foreignKeyName="fk_fav_user_id" references="USER(id)"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>
