@@ -4,16 +4,26 @@ import com.project.MyProject.enumeration.UserRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "USER")
+@Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +47,10 @@ public class User {
     private boolean active;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "FAVOURITES",
+    @JoinTable(name = "favourites",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "tabs_id"))
     @EqualsAndHashCode.Exclude
-    @ToString.Exclude
+//    @ToString.Exclude
     private Set<Tabs> tabsSet = new HashSet<>();
 }

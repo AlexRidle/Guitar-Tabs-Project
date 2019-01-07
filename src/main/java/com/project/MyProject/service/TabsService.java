@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,12 +44,16 @@ public class TabsService {
         final User user = userRepository.findByUsername(username);
         if (user != null){
             final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
-            for (final long tabId : idsTabs) {
-                user.getTabsSet().add(tabsRepository.getById(tabId));
+            for (int i = 0; i < idsTabs.length; i++) {
+                final Optional<Tabs> tabs = tabsRepository.findById(idsTabs[i]);
+                if (tabs.isPresent()) {
+                    user.getTabsSet().add(tabs.get());
+                    favouritesTabs[i] = tabsConverter.convertToDto(tabs.get());
+                }
             }
             final User savedUser = userRepository.save(user);
             if (savedUser != null){
-                return userConverter.convertToDto(savedUser).getTabsSet().toArray(favouritesTabs);
+                return favouritesTabs;
             }
         }
         return null;
@@ -58,7 +63,7 @@ public class TabsService {
         final User user = userRepository.findByUsername(username);
         if (user != null){
             for (final long tabsId : idsTabs) {
-                userRepository.removeTabsFromFavourites(tabsId);
+                userRepository.removeTabsFromFavourites(tabsId, user.getId());
             }
         }
         for (final long tabsId : idsTabs){

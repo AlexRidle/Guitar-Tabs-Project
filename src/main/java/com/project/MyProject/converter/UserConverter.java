@@ -24,7 +24,8 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
     @Override
     public UserDto convertToDto(final User entity) {
         final UserDto userDto = new UserDto();
-        BeanUtils.copyProperties(entity, userDto);
+        BeanUtils.copyProperties(entity, userDto, "tabsSet");
+        setTabsSetToDto(userDto, entity);
         return userDto;
     }
 
@@ -38,6 +39,7 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
         if (userDto.getUsername().equals("root"))
             user.setRole(UserRole.ADMIN);
         else user.setRole(UserRole.USER);
+        setTabsSetToEntity(user, userDto);
         return user;
     }
 

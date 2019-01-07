@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
     <changeSet author="bely" id="1.0">
-        <insert tableName="USER">
+        <insert tableName="user">
             <column name="id" valueNumeric="1"/>
             <column name="username" value="user"/>
             <column name="password" value="password"/>
@@ -11,7 +11,7 @@
             <column name="active" value="1"/>
             <column name="role" value="USER"/>
         </insert>
-        <insert tableName="TABS">
+        <insert tableName="tabs">
             <column name="id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="artist" value="artist"/>
@@ -19,7 +19,7 @@
             <column name="tabs_body" value="tabs body"/>
             <column name="hidden" value="0"/>
         </insert>
-        <insert tableName="TABS">
+        <insert tableName="tabs">
             <column name="id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="artist" value="artist"/>
@@ -27,7 +27,7 @@
             <column name="tabs_body" value="hidden tabs body"/>
             <column name="hidden" value="1"/>
         </insert>
-        <insert tableName="COMMENTS">
+        <insert tableName="comments">
             <column name="id" valueNumeric="1"/>
             <column name="user_id" valueNumeric="1"/>
             <column name="tabs_id" valueNumeric="1"/>
@@ -35,7 +35,7 @@
         </insert>
     </changeSet>
     <changeSet author="bely" id="1.1">
-        <insert tableName="USER">
+        <insert tableName="user">
             <column name="id" valueNumeric="2"/>
             <column name="username" value="root"/>
             <column name="password" value="password"/>
@@ -43,7 +43,7 @@
             <column name="active" value="1"/>
             <column name="role" value="ADMIN"/>
         </insert>
-        <insert tableName="TABS">
+        <insert tableName="tabs">
             <column name="id" valueNumeric="3"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="artist" value="artist root"/>
@@ -51,7 +51,7 @@
             <column name="tabs_body" value="root tabs body"/>
             <column name="hidden" value="0"/>
         </insert>
-        <insert tableName="TABS">
+        <insert tableName="tabs">
             <column name="id" valueNumeric="4"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="artist" value="artist root"/>
@@ -59,7 +59,7 @@
             <column name="tabs_body" value="hidden root tabs body"/>
             <column name="hidden" value="1"/>
         </insert>
-        <insert tableName="COMMENTS">
+        <insert tableName="comments">
             <column name="id" valueNumeric="2"/>
             <column name="user_id" valueNumeric="2"/>
             <column name="tabs_id" valueNumeric="2"/>

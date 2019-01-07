@@ -96,7 +96,7 @@ public class TabsController {
     }
 
     @PutMapping("/addToFavourites")
-    public TabsDto[] addListToFavourites(@RequestBody final long ... idsTabs){
+    public TabsDto[] addTabsToFavourites(@RequestBody final long ... idsTabs){
         return tabsService.addTabsToFavourites(SecurityContextHolder.getContext().getAuthentication().getName(), idsTabs);
     }
 
