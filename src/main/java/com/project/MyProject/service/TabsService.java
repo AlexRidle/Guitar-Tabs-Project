@@ -62,7 +62,7 @@ public class TabsService {
             }
         }
         for (final long tabsId : idsTabs){
-            if (userRepository.findByTabsId(tabsId) != null){
+            if (userRepository.findUserByTabsId(tabsId) != null){
                 return false;
             }
         }
