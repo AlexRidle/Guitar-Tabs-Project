@@ -39,19 +39,7 @@ public class TabsService {
         tabsRepository.save(tabsConverter.convertToDbo(tabsDto));
     }
 
-    public TabsDto addTabsToFavourites(final long tabsId, final String username){
-        final User user = userRepository.findByUsername(username);
-        if (user != null){
-            final Tabs tabs = tabsRepository.getById(tabsId);
-            user.getTabsSet().add(tabs);
-            if (userRepository.save(user) != null){
-                return tabsConverter.convertToDto(tabs);
-            }
-        }
-        return null;
-    }
-
-    public TabsDto[] addTabsListToFavourites(final long [] idsTabs, final String username){
+    public TabsDto[] addTabsToFavourites(final String username, final long ... idsTabs){
         final User user = userRepository.findByUsername(username);
         if (user != null){
             final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
@@ -64,6 +52,21 @@ public class TabsService {
             }
         }
         return null;
+    }
+
+    public boolean removeFromFavourites(final String username, final long ... idsTabs){
+        final User user = userRepository.findByUsername(username);
+        if (user != null){
+            for (final long tabsId : idsTabs) {
+                userRepository.removeTabsFromFavourites(tabsId);
+            }
+        }
+        for (final long tabsId : idsTabs){
+            if (userRepository.findByTabsId(tabsId) != null){
+                return false;
+            }
+        }
+        return true;
     }
 
     public TabsDto getTab(final long id, final Authentication auth) {

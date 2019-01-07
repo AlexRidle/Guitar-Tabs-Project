@@ -95,4 +95,17 @@ public class TabsController {
                 .getName());
     }
 
+    @PutMapping("/addToFavourites")
+    public TabsDto[] addListToFavourites(@RequestBody final long ... idsTabs){
+        return tabsService.addTabsToFavourites(SecurityContextHolder.getContext().getAuthentication().getName(), idsTabs);
+    }
+
+    @DeleteMapping("/removeFromFavourites")
+    public String removeTabsFromFavourites(@RequestBody final long ... idsTabs){
+        if (tabsService.removeFromFavourites(SecurityContextHolder.getContext().getAuthentication().getName(), idsTabs)){
+            return "Selected tabs was deleted successfully";
+        }
+        return "Error of deletion selected Tabs";
+    }
+
 }
