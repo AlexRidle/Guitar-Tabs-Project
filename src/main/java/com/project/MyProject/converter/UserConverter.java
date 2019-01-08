@@ -48,6 +48,7 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
         final ShowUserDto showUserDto = new ShowUserDto();
         BeanUtils.copyProperties(entity, showUserDto);
         return showUserDto;
+    }
 
     private void setTabsSetToDto(final UserDto userDto, final User user){
         final Set<Tabs> tabsSet = user.getTabsSet();
