@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -32,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         http.csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/*", "/VAADIN/**").permitAll()
+                    .antMatchers("/").permitAll()
                     .antMatchers("/user/register").permitAll()
                     .antMatchers("/comment/tab").permitAll()
                     .antMatchers("/tabs/all").permitAll()
@@ -55,6 +56,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /*auth.inMemoryAuthentication()
                 .withUser("root").password(encoder().encode("root")).roles("ADMIN");*/
         auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+    }
+
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/resources/**", "/VAADIN/**", "/vaadinServlet/**");
     }
 
     @Bean
