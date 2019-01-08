@@ -1,9 +1,8 @@
 package com.project.MyProject.converter;
 
 import com.project.MyProject.service.MockData;
-import com.project.MyProject.dto.UserDto;
+import com.project.MyProject.dto.user.UserDto;
 import com.project.MyProject.entity.User;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

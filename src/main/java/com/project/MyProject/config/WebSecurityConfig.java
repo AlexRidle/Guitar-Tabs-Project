@@ -1,7 +1,7 @@
 package com.project.MyProject.config;
 
-import com.project.MyProject.config.jwt.JWTAuthenticationFilter;
-import com.project.MyProject.config.jwt.JWTLoginFilter;
+import com.project.MyProject.security.JWTAuthenticationFilter;
+import com.project.MyProject.security.JWTLoginFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +19,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService userDetailsService;
+
     @Autowired
-    private UserDetailsService userDetailsService;
+    public WebSecurityConfig(final UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
@@ -28,12 +32,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         http.csrf().disable()
                 .authorizeRequests()
+                    .antMatchers("/*", "/VAADIN/**").permitAll()
                     .antMatchers("/user/register").permitAll()
+                    .antMatchers("/comment/tab").permitAll()
                     .antMatchers("/tabs/all").permitAll()
-                    .antMatchers("/tabs/user/**").permitAll()
+                    .antMatchers("/tabs/user").permitAll()
                     .antMatchers("/tabs/search").permitAll()
-                    .antMatchers("/tabs/{id}").permitAll()
+                    .antMatchers("/tabs/tab").permitAll()
                     .antMatchers(HttpMethod.POST,"/login").permitAll()
+//                    .antMatchers("/user/all").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 // We filter the api/login requests
@@ -54,8 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     protected void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth
-                .userDetailsService(userDetailsService)
+        auth.userDetailsService(userDetailsService)
                 .passwordEncoder(encoder());
     }
 

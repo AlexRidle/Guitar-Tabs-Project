@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="1.0" author="bely">
+
+        <createTable tableName="tabs">
+
+            <column autoIncrement="true" name="id" type="BIGINT(19)" startWith="1">
+                <constraints nullable="false" unique="true" primaryKey="true" primaryKeyName="PK_tabs_id"/>
+            </column>
+
+            <column name="user_id" type="BIGINT(19)">
+                <constraints nullable="false" foreignKeyName="fk_tabs_user_id" references="user(id)"/>
+            </column>
+
+            <column name="artist" type="VARCHAR(100)" defaultValue="unknown">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="title" type="VARCHAR(100)" defaultValue="untitled">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="tabs_body" type="TEXT">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="hidden" type="TINYINT(2)" defaultValue="1">
+                <constraints nullable="false" />
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

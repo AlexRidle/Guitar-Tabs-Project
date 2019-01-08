@@ -1,4 +1,4 @@
-package com.project.MyProject.dto;
+package com.project.MyProject.dto.comment;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class CommentDto {
     private Long id;
     private Long userId;
+    private Long tabsId;
     private String commentBody;
 }

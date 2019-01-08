@@ -1,13 +1,17 @@
 package com.project.MyProject.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Data
@@ -19,19 +23,22 @@ public class Tabs {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    private Long userId;
+    @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @NonNull
+    @Column(name = "hidden", nullable = false)
     private boolean hidden;
 
-    @NonNull
+    @Column(name = "artist", nullable = false)
     private String artist;
 
-    @NonNull
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @NonNull
+    @Column(name = "tabs_body", nullable = false)
     private String tabsBody;
 
 }

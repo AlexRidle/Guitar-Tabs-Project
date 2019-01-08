@@ -1,13 +1,12 @@
 package com.project.MyProject.controller;
 
-import com.project.MyProject.dto.TabsDto;
-import com.project.MyProject.dto.UpdateTabDto;
+import com.project.MyProject.dto.tabs.TabsDto;
+import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.service.TabsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,12 +29,16 @@ public class TabsController {
 
     @PostMapping("/add")
     public String addTabs(@RequestBody final TabsDto tabsDto) {
-        tabsService.createTabs(tabsDto);
+        tabsService.createTabs(tabsDto, SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName());
         return "Tabs added";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteTab(@PathVariable final long id){
+    @DeleteMapping("/delete")
+    //Cannot delete or update a parent row: a foreign key constraint fails (have to change settings for deleting)
+    public String deleteTab(@RequestParam final long id){
         return  tabsService.deleteTab(id,SecurityContextHolder
                 .getContext()
                 .getAuthentication()
@@ -49,17 +52,21 @@ public class TabsController {
                 .getAuthentication());
     }
 
-    @GetMapping("/{id}")
-    public TabsDto getTab(@PathVariable final long id){
-        return tabsService.getTab(id);
+    @GetMapping("/tab")
+    public TabsDto getTab(@RequestParam final long id){
+        return tabsService.getTab(id, SecurityContextHolder
+                .getContext()
+                .getAuthentication());
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user")
     public List<TabsDto> getUser(
-            @PathVariable final long id,
+            @RequestParam final long id,
             @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden
     ){
-        return tabsService.getUserTabs(id, hidden);
+        return tabsService.getUserTabs(id, hidden, SecurityContextHolder
+                .getContext()
+                .getAuthentication());
     }
 
     @GetMapping("/search")
@@ -67,20 +74,22 @@ public class TabsController {
             @RequestParam(name = "artist", required = false, defaultValue = "ALL_ARTISTS") final String artist,
             @RequestParam(name = "title", required = false, defaultValue = "ALL_TITLES") final String title,
             @RequestParam(name = "hidden", required = false, defaultValue = "false") final boolean hidden){
-        return tabsService.findTabs(artist, title, hidden);
+        return tabsService.findTabs(artist, title, hidden, SecurityContextHolder
+                .getContext()
+                .getAuthentication());
     }
 
-    @PutMapping("/update/{id}")
-    public String updateTabs(@RequestBody final UpdateTabDto updateTabDto, @PathVariable final long id){
+    @PutMapping("/update")
+    public String updateTabs(@RequestBody final UpdateTabDto updateTabDto, @RequestParam final long id){
         return  tabsService.updateTabs(updateTabDto, id, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getName());
     }
 
-    @PutMapping("/set_hidden/{id}")
-    public String setHiddenTabs(@PathVariable final long id){
-        return tabsService.setHidden(id, SecurityContextHolder
+    @PutMapping("/swapHidden")
+    public String setHiddenTabs(@RequestParam final long id){
+        return tabsService.swapHidden(id, SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getName());

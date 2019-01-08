@@ -1,11 +1,12 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.converter.UserConverter;
-import com.project.MyProject.dto.UserDto;
+import com.project.MyProject.dto.user.ShowUserDto;
+import com.project.MyProject.dto.user.UserDto;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class UserService {
         userRepository.save(userConverter.convertToDbo(userDto));
     }
 
-    public List<UserDto> getUsersList() {
-        return userRepository.findAll().stream().map(userConverter::convertToDto).collect(Collectors.toList());
+    public List<ShowUserDto> getUsersList() {
+        return userRepository.findAll().stream().map(userConverter::convertDboToShowUserDto).collect(Collectors.toList());
     }
 
     public User getUser(String name) {
@@ -36,7 +37,6 @@ public class UserService {
     }
 
     public Boolean protect(final String login){
-        if (userRepository.findByUsername(login).getRole().equals("ADMIN"))
-            return true; else return false;
+        return userRepository.findByUsername(login).getRole().equals(UserRole.ADMIN);
     }
 }
