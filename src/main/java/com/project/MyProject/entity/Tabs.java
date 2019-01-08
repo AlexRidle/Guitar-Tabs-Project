@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "TABS")
+@Table(name = "tabs")
 public class Tabs {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,5 +40,4 @@ public class Tabs {
 
     @Column(name = "tabs_body", nullable = false)
     private String tabsBody;
-
 }

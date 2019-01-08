@@ -3,6 +3,7 @@ package com.project.MyProject.service;
 import com.project.MyProject.converter.UserConverter;
 import com.project.MyProject.dto.user.ShowUserDto;
 import com.project.MyProject.dto.user.UserDto;
+import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.UserRepository;
@@ -39,4 +40,6 @@ public class UserService {
     public Boolean protect(final String login){
         return userRepository.findByUsername(login).getRole().equals(UserRole.ADMIN);
     }
+
+
 }

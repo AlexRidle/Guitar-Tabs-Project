@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
-
 public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
 
     private final UserRepository userRepository;

@@ -10,5 +10,6 @@
     <include file="changelog/tabs-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog/comment-table.xml" relativeToChangelogFile="true"/>
     <include file="changelog/insert-default-settings.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/favourites-table.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

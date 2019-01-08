@@ -1,13 +1,14 @@
 package com.project.MyProject.service;
 
 import com.project.MyProject.converter.TabsConverter;
+import com.project.MyProject.converter.UserConverter;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.enumeration.UserRole;
-import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.exception.DatabaseException;
+import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,17 +25,53 @@ public class TabsService {
     private final TabsRepository tabsRepository;
     private final TabsConverter tabsConverter;
     private final UserRepository userRepository;
+    private final UserConverter userConverter;
 
     @Autowired
-    public TabsService(final TabsRepository tabsRepository, final TabsConverter tabsConverter, final UserRepository userRepository) {
+    public TabsService(TabsRepository tabsRepository, TabsConverter tabsConverter, UserRepository userRepository, UserConverter userConverter) {
         this.tabsRepository = tabsRepository;
         this.tabsConverter = tabsConverter;
         this.userRepository = userRepository;
+        this.userConverter = userConverter;
     }
 
     public void createTabs(final TabsDto tabsDto, final String username) {
         tabsDto.setUserId(userRepository.findByUsername(username).getId());
         tabsRepository.save(tabsConverter.convertToDbo(tabsDto));
+    }
+
+    public TabsDto[] addTabsToFavourites(final String username, final long ... idsTabs){
+        final User user = userRepository.findByUsername(username);
+        if (user != null){
+            final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
+            for (int i = 0; i < idsTabs.length; i++) {
+                final Optional<Tabs> tabs = tabsRepository.findById(idsTabs[i]);
+                if (tabs.isPresent()) {
+                    user.getTabsSet().add(tabs.get());
+                    favouritesTabs[i] = tabsConverter.convertToDto(tabs.get());
+                }
+            }
+            final User savedUser = userRepository.save(user);
+            if (savedUser != null){
+                return favouritesTabs;
+            }
+        }
+        return null;
+    }
+
+    public boolean removeFromFavourites(final String username, final long ... idsTabs){
+        final User user = userRepository.findByUsername(username);
+        if (user != null){
+            for (final long tabsId : idsTabs) {
+                userRepository.removeTabsFromFavourites(tabsId, user.getId());
+            }
+        }
+        for (final long tabsId : idsTabs){
+            if (userRepository.findUserByTabsId(tabsId) != null){
+                return false;
+            }
+        }
+        return true;
     }
 
     public TabsDto getTab(final long id, final Authentication auth) {
