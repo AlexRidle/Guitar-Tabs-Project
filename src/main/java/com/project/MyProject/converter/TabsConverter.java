@@ -19,12 +19,15 @@ public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
     @Override
     public TabsDto convertToDto(final Tabs entity) {
         final TabsDto tabsDto = new TabsDto();
-        tabsDto.setId(entity.getId());
-        tabsDto.setArtist(entity.getArtist());
-        tabsDto.setTitle(entity.getTitle());
-        tabsDto.setHidden(entity.isHidden());
-        tabsDto.setTabsBody(entity.getTabsBody());
+        BeanUtils.copyProperties(entity, tabsDto, "user");
         tabsDto.setUserId(entity.getUser().getId());
+        System.out.println(tabsDto);
+//        tabsDto.setId(entity.getId());
+//        tabsDto.setArtist(entity.getArtist());
+//        tabsDto.setTitle(entity.getTitle());
+//        tabsDto.setHidden(entity.isHidden());
+//        tabsDto.setTabsBody(entity.getTabsBody());
+//        tabsDto.setUserId(entity.getUser().getId());
         return tabsDto;
     }
 
