@@ -10,12 +10,10 @@ import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
@@ -138,25 +136,6 @@ public class TabServiceTest {
 
         assertEquals("Tab with id " + tab.getId() + " has been updated", answer3);
     }
-
-//    public TabsDto[] addTabsToFavourites(final String username, final long ... idsTabs){
-//        final User user = userRepository.findByUsername(username);
-//        if (user != null){
-//            final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
-//            for (int i = 0; i < idsTabs.length; i++) {
-//                final Optional<Tabs> tabs = tabsRepository.findById(idsTabs[i]);
-//                if (tabs.isPresent()) {
-//                    user.getTabsSet().add(tabs.get());
-//                    favouritesTabs[i] = tabsConverter.convertToDto(tabs.get());
-//                }
-//            }
-//            final User savedUser = userRepository.save(user);
-//            if (savedUser != null){
-//                return favouritesTabs;
-//            }
-//        }
-//        return null;
-//    }
 
     @Test
     public void addToFavourites(){
