@@ -9,11 +9,11 @@ import static org.junit.Assert.*;
 
 public class TabsConverterTest {
 
-    private final TabsConverter tabsConverter;
+    private TabsConverter tabsConverter;
 
-    public TabsConverterTest(final TabsConverter tabsConverter) {
-        this.tabsConverter = tabsConverter;
-    }
+//    public TabsConverterTest(final TabsConverter tabsConverter) {
+//        this.tabsConverter = tabsConverter;
+//    }
 
     @Test
     public void convertToDto() {

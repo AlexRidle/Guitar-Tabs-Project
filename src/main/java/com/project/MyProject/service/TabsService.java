@@ -41,15 +41,20 @@ public class TabsService {
     }
 
     public TabsDto[] addTabsToFavourites(final String username, final long ... idsTabs){
+
         final User user = userRepository.findByUsername(username);
         if (user != null){
+
             final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
             for (int i = 0; i < idsTabs.length; i++) {
+
                 final Optional<Tabs> tabs = tabsRepository.findById(idsTabs[i]);
+
                 if (tabs.isPresent()) {
                     user.getTabsSet().add(tabs.get());
                     favouritesTabs[i] = tabsConverter.convertToDto(tabs.get());
                 }
+
             }
             final User savedUser = userRepository.save(user);
             if (savedUser != null){

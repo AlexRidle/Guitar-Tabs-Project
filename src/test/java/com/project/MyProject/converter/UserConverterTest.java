@@ -5,26 +5,38 @@ import com.project.MyProject.service.MockData;
 import com.project.MyProject.dto.user.UserDto;
 import com.project.MyProject.entity.User;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class UserConverterTest {
 
-    @Autowired
-    private final UserRepository userRepository;
+    @InjectMocks
+    private UserConverter userConverter;
 
-    private final UserConverter userConverter;
+    @Spy
+    private TabsConverter converter;
 
-    @Autowired
-    public UserConverterTest(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        userConverter = new UserConverter(new TabsConverter(this.userRepository));
+    @Mock
+    private UserRepository userRepository;
+
+    @Before
+    public void init() {
+        converter = new TabsConverter(userRepository);
+        MockitoAnnotations.initMocks(this);
     }
+
 
     @Test
     public void convertToDto() {
         final User user = MockData.user();
+        when(userRepository.findByUsername(Mockito.anyString())).thenReturn(any(User.class));
         final UserDto userDto = userConverter.convertToDto(user);
         assertEquals(user.getUsername(), userDto.getUsername());
         assertEquals(user.getEmail(), userDto.getEmail());
