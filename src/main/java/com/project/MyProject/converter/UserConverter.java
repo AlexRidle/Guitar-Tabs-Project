@@ -1,6 +1,7 @@
 package com.project.MyProject.converter;
 
-import com.project.MyProject.dto.UserDto;
+import com.project.MyProject.dto.user.ShowUserDto;
+import com.project.MyProject.dto.user.UserDto;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.entity.User;
@@ -41,6 +42,12 @@ public class UserConverter implements DtoEntityConverter<UserDto, User> {
         else user.setRole(UserRole.USER);
         setTabsSetToEntity(user, userDto);
         return user;
+    }
+
+    public ShowUserDto convertDboToShowUserDto(final User entity) {
+        final ShowUserDto showUserDto = new ShowUserDto();
+        BeanUtils.copyProperties(entity, showUserDto);
+        return showUserDto;
     }
 
     private void setTabsSetToDto(final UserDto userDto, final User user){

@@ -106,7 +106,6 @@ public class TabsService {
             }
         }
     }
-
     public List<TabsDto> getTabsList(final Authentication auth) {
         if (auth.getName().equals("anonymousUser"))
             return tabsRepository.findAllByHiddenIsFalse()

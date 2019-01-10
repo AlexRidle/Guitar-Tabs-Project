@@ -1,4 +1,4 @@
-package com.project.MyProject.dto;
+package com.project.MyProject.dto.user;
 
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.enumeration.UserRole;
@@ -11,7 +11,6 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 public class UserDto {
-    private Long id;
     private String username;
     private String password;
     private String email;

@@ -1,10 +1,9 @@
 package com.project.MyProject.converter;
 
-import com.project.MyProject.dto.UserDto;
-import com.project.MyProject.entity.User;
 import com.project.MyProject.repository.UserRepository;
 import com.project.MyProject.service.MockData;
-import org.junit.Before;
+import com.project.MyProject.dto.user.UserDto;
+import com.project.MyProject.entity.User;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
