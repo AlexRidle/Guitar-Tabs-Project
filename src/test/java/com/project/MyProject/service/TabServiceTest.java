@@ -152,6 +152,6 @@ public class TabServiceTest {
         final TabsDto[] tabsDtos = tabsService.addTabsToFavourites(user.getUsername(), tabIds);
 
         verify(userRepository, times(1)).save(user);
-        System.out.println(tabsDtos[0]);
+
     }
 }
