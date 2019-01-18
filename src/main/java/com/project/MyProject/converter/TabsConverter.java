@@ -35,10 +35,11 @@ public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
     public Tabs convertToDbo(final TabsDto tabsDto) {
         final Tabs tabs = new Tabs();
         BeanUtils.copyProperties(tabsDto, tabs);
-        tabs.setUser(userRepository.findByUsername(SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName()));
+        tabs.setUser(userRepository.findByUsername("user"));
+//        tabs.setUser(userRepository.findByUsername(SecurityContextHolder
+//                .getContext()
+//                .getAuthentication()
+//                .getName()));
         return tabs;
     }
 

@@ -231,6 +231,7 @@ public class TabsService {
                 tab.setArtist(updateTabDto.getArtist());
                 tab.setTitle(updateTabDto.getTitle());
                 tab.setTabsBody(updateTabDto.getTabsBody());
+                tab.setHidden(updateTabDto.isHidden());
                 tabsRepository.save(tab);
                 return "Tab with id " + id + " has been updated";
             } else return "You don\'t have permissions to update this tab";

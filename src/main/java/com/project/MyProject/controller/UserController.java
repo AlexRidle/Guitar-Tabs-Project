@@ -30,7 +30,7 @@ public class UserController {
         return "Successfully registered";
     }
 
-    @GetMapping("/all")
+    @PostMapping("/all")
     public List<ShowUserDto> getAllUsers() {
         return userService.getUsersList();
     }

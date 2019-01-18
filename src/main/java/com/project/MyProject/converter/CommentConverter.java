@@ -25,6 +25,7 @@ public class CommentConverter implements DtoEntityConverter<CommentDto, Comment>
         commentDto.setCommentBody(entity.getCommentBody());
         commentDto.setId(entity.getId());
         commentDto.setUserId(entity.getUser().getId());
+        commentDto.setUsername(entity.getUser().getUsername());
         commentDto.setTabsId(entity.getTabs().getId());
         return commentDto;
     }

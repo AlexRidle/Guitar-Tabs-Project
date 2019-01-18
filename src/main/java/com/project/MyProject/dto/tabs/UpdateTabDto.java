@@ -9,4 +9,5 @@ public class UpdateTabDto {
     private String artist;
     private String title;
     private String tabsBody;
+    private boolean hidden;
 }
