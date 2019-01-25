@@ -13,11 +13,14 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.vaadin.spring.security.VaadinSecurity;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class EditTabWindow extends Window {
+
+    private VaadinSecurity vaadinSecurity;
 
     private TabsService tabsService;
 
@@ -31,10 +34,11 @@ public class EditTabWindow extends Window {
     private TextField title;
     private TextArea tabBody;
 
-    public EditTabWindow(Tabs tabs, TabsService tabsService) {
+    public EditTabWindow(Tabs tabs, TabsService tabsService, VaadinSecurity vaadinSecurity) {
         super(tabs.getArtist() + " - " + tabs.getTitle());
         this.tabsService = tabsService;
         this.tabs = tabs;
+        this.vaadinSecurity = vaadinSecurity;
 
         data = Arrays.asList("Public", "Private");
         radioButtonGroup = new RadioButtonGroup<>("Tab type", data);
@@ -76,7 +80,7 @@ public class EditTabWindow extends Window {
         updateTabDto.setTitle(title.getValue());
         updateTabDto.setTabsBody(tabBody.getValue());
         updateTabDto.setHidden(String.valueOf(radioButtonGroup.getValue()).equals("Private"));
-        String response = tabsService.updateTabs(updateTabDto, tabs.getId(), SecurityContextHolder.getContext().getAuthentication().getName());
+        String response = tabsService.updateTabs(updateTabDto, tabs.getId(), vaadinSecurity.getAuthentication().getName());
         if(response.equals("Tab with id " + tabs.getId() + " has been updated")){
             close();
             Notification.show("Success", response, Notification.Type.TRAY_NOTIFICATION);

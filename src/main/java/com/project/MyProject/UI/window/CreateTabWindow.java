@@ -1,5 +1,6 @@
 package com.project.MyProject.UI.window;
 
+import com.project.MyProject.dto.tabs.CreateTabsDto;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.service.TabsService;
 import com.vaadin.ui.Button;
@@ -10,11 +11,14 @@ import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
+import org.vaadin.spring.security.VaadinSecurity;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class CreateTabWindow extends Window {
+
+    private VaadinSecurity vaadinSecurity;
 
     private TabsService tabsService;
 
@@ -27,9 +31,10 @@ public class CreateTabWindow extends Window {
     private TextField title;
     private TextArea tabBody;
 
-    public CreateTabWindow(TabsService tabsService) {
+    public CreateTabWindow(TabsService tabsService, VaadinSecurity vaadinSecurity) {
         super("Add tab");
         this.tabsService = tabsService;
+        this.vaadinSecurity = vaadinSecurity;
 
         data = Arrays.asList("Public", "Private");
         radioButtonGroup = new RadioButtonGroup<>("Tab type", data);
@@ -61,12 +66,13 @@ public class CreateTabWindow extends Window {
     }
 
     private void createTabButtonClick(Button.ClickEvent e) {
-        TabsDto tabsDto = new TabsDto();
-        tabsDto.setArtist(author.getValue());
-        tabsDto.setTitle(title.getValue());
-        tabsDto.setTabsBody(tabBody.getValue());
-        tabsDto.setHidden(String.valueOf(radioButtonGroup.getValue()).equals("Private"));
-        tabsService.createTabs(tabsDto,"user");
+        CreateTabsDto createTabsDto = new CreateTabsDto();
+        createTabsDto.setArtist(author.getValue());
+        createTabsDto.setTitle(title.getValue());
+        createTabsDto.setTabsBody(tabBody.getValue());
+        createTabsDto.setHidden(String.valueOf(radioButtonGroup.getValue()).equals("Private"));
+        createTabsDto.setUsername(vaadinSecurity.getAuthentication().getName());
+        tabsService.createTabs(createTabsDto);
         Notification.show("Success", "Tab has been created", Notification.Type.TRAY_NOTIFICATION);
         close();
     }

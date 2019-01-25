@@ -3,12 +3,12 @@ package com.project.MyProject.service;
 import com.project.MyProject.converter.UserConverter;
 import com.project.MyProject.dto.user.ShowUserDto;
 import com.project.MyProject.dto.user.UserDto;
-import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.User;
 import com.project.MyProject.enumeration.UserRole;
 import com.project.MyProject.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vaadin.spring.security.VaadinSecurity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +40,5 @@ public class UserService {
     public Boolean protect(final String login){
         return userRepository.findByUsername(login).getRole().equals(UserRole.ADMIN);
     }
-
 
 }

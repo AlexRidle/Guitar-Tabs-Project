@@ -1,5 +1,6 @@
 package com.project.MyProject.controller;
 
+import com.project.MyProject.dto.tabs.CreateTabsDto;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.service.TabsService;
@@ -28,11 +29,8 @@ public class TabsController {
     }
 
     @PostMapping("/add")
-    public String addTabs(@RequestBody final TabsDto tabsDto) {
-        tabsService.createTabs(tabsDto, SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName());
+    public String addTabs(@RequestBody final CreateTabsDto createTabsDto) {
+        tabsService.createTabs(createTabsDto);
         return "Tabs added";
     }
 

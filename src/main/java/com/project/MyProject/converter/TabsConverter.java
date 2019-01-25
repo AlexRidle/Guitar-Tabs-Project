@@ -1,5 +1,6 @@
 package com.project.MyProject.converter;
 
+import com.project.MyProject.dto.tabs.CreateTabsDto;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.UserRepository;
@@ -20,6 +21,7 @@ public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
     public TabsDto convertToDto(final Tabs entity) {
         final TabsDto tabsDto = new TabsDto();
         BeanUtils.copyProperties(entity, tabsDto, "user");
+
         tabsDto.setUserId(entity.getUser().getId());
         System.out.println(tabsDto);
 //        tabsDto.setId(entity.getId());
@@ -35,7 +37,6 @@ public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
     public Tabs convertToDbo(final TabsDto tabsDto) {
         final Tabs tabs = new Tabs();
         BeanUtils.copyProperties(tabsDto, tabs);
-        tabs.setUser(userRepository.findByUsername("user"));
 //        tabs.setUser(userRepository.findByUsername(SecurityContextHolder
 //                .getContext()
 //                .getAuthentication()
@@ -43,4 +44,16 @@ public class TabsConverter implements DtoEntityConverter<TabsDto, Tabs> {
         return tabs;
     }
 
+    public Tabs convertCreateTabsToDbo(final CreateTabsDto createTabsDto) {
+        final Tabs tabs = new Tabs();
+        final TabsDto tabsDto = new TabsDto();
+        tabsDto.setHidden(createTabsDto.isHidden());
+        tabsDto.setTabsBody(createTabsDto.getTabsBody());
+        tabsDto.setTitle(createTabsDto.getTitle());
+        tabsDto.setArtist(createTabsDto.getArtist());
+        BeanUtils.copyProperties(tabsDto, tabs);
+
+        tabs.setUser(userRepository.findByUsername(createTabsDto.getUsername()));
+        return tabs;
+    }
 }

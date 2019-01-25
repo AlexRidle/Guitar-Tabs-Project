@@ -2,6 +2,7 @@ package com.project.MyProject.service;
 
 import com.project.MyProject.converter.TabsConverter;
 import com.project.MyProject.converter.UserConverter;
+import com.project.MyProject.dto.tabs.CreateTabsDto;
 import com.project.MyProject.dto.tabs.TabsDto;
 import com.project.MyProject.dto.tabs.UpdateTabDto;
 import com.project.MyProject.entity.Tabs;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,17 +37,16 @@ public class TabsService {
         this.userConverter = userConverter;
     }
 
-    public void createTabs(final TabsDto tabsDto, final String username) {
-        tabsDto.setUserId(userRepository.findByUsername(username).getId());
-        tabsRepository.save(tabsConverter.convertToDbo(tabsDto));
+    public void createTabs(final CreateTabsDto createTabsDto) {
+        tabsRepository.save(tabsConverter.convertCreateTabsToDbo(createTabsDto));
     }
 
-    public TabsDto[] addTabsToFavourites(final String username, final long ... idsTabs){
+    public TabsDto[] addTabsToFavourites(final String username, final long... idsTabs) {
 
         final User user = userRepository.findByUsername(username);
-        if (user != null){
+        if (user != null) {
 
-            final TabsDto [] favouritesTabs = new TabsDto[idsTabs.length];
+            final TabsDto[] favouritesTabs = new TabsDto[idsTabs.length];
             for (int i = 0; i < idsTabs.length; i++) {
 
                 final Optional<Tabs> tabs = tabsRepository.findById(idsTabs[i]);
@@ -57,22 +58,22 @@ public class TabsService {
 
             }
             final User savedUser = userRepository.save(user);
-            if (savedUser != null){
+            if (savedUser != null) {
                 return favouritesTabs;
             }
         }
         return null;
     }
 
-    public boolean removeFromFavourites(final String username, final long ... idsTabs){
+    public boolean removeFromFavourites(final String username, final long... idsTabs) {
         final User user = userRepository.findByUsername(username);
-        if (user != null){
+        if (user != null) {
             for (final long tabsId : idsTabs) {
                 userRepository.removeTabsFromFavourites(tabsId, user.getId());
             }
         }
-        for (final long tabsId : idsTabs){
-            if (userRepository.findUserByTabsId(tabsId) != null){
+        for (final long tabsId : idsTabs) {
+            if (userRepository.findUserByTabsId(tabsId) != null) {
                 return false;
             }
         }
@@ -106,6 +107,7 @@ public class TabsService {
             }
         }
     }
+
     public List<TabsDto> getTabsList(final Authentication auth) {
         if (auth.getName().equals("anonymousUser"))
             return tabsRepository.findAllByHiddenIsFalse()
@@ -220,6 +222,20 @@ public class TabsService {
                 return "Tab with id " + id + " has been deleted";
             } else return "You don\'t have permissions to delete this tab";
         } else return "Cant find tab with id " + id;
+    }
+
+    public boolean deleteTab(final Set<Tabs> tabs, final String username) {
+        boolean result = true;
+        final User user = userRepository.findByUsername(username);
+        for (Tabs tab : tabs) {
+            if (user.getRole().equals(UserRole.ADMIN)
+                    || user.getId().equals(tab.getUser().getId())) {
+                tabsRepository.delete(tab);
+            } else {
+                result = false;
+            }
+        }
+        return result;
     }
 
     public String updateTabs(final UpdateTabDto updateTabDto, final long id, final String username) {

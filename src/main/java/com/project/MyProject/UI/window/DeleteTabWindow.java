@@ -2,6 +2,7 @@ package com.project.MyProject.UI.window;
 
 import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.TabsRepository;
+import com.project.MyProject.service.TabsService;
 import com.project.MyProject.service.UserService;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -12,12 +13,15 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.Window;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.spring.security.VaadinSecurity;
+import org.vaadin.spring.servlet.Vaadin4SpringServlet;
 
 import java.util.Set;
 
 public class DeleteTabWindow extends Window {
 
-    private TabsRepository tabsRepository;
+    private TabsService tabsService;
+    private VaadinSecurity vaadinSecurity;
 
     private Grid<Tabs> grid;
     private Set<Tabs> tabs;
@@ -27,11 +31,12 @@ public class DeleteTabWindow extends Window {
     private Button delete = new Button("Delete", this::deleteTabButtonClick);
     private Button cancel = new Button("Cancel", this::cancelButtonClick);
 
-    public DeleteTabWindow(Set<Tabs> tabs, Grid<Tabs> grid, TabsRepository tabsRepository) {
+    public DeleteTabWindow(Set<Tabs> tabs, Grid<Tabs> grid, TabsService tabsService, VaadinSecurity vaadinSecurity) {
         super("Delete selected tabs");
         this.grid = grid;
         this.tabs = tabs;
-        this.tabsRepository = tabsRepository;
+        this.tabsService = tabsService;
+        this.vaadinSecurity = vaadinSecurity;
         label.setValue("Are you sure?");
 
         buttons = new HorizontalLayout();
@@ -52,10 +57,16 @@ public class DeleteTabWindow extends Window {
     }
 
     private void deleteTabButtonClick(Button.ClickEvent e) {
-        tabsRepository.deleteAll(tabs);
+
+        if(tabsService.deleteTab(tabs, vaadinSecurity.getAuthentication().getName())){
+            Notification.show("Success", "Tabs has been deleted", Notification.Type.TRAY_NOTIFICATION);
+        } else {
+            Notification.show("Error", "You don\'t have permissions to delete this tab", Notification.Type.ERROR_MESSAGE);
+        }
+
         grid.getDataProvider().refreshAll();
         close();
-        Notification.show("Success", "Tabs has been deleted", Notification.Type.TRAY_NOTIFICATION);
+
     }
 
     private void cancelButtonClick(Button.ClickEvent e) {

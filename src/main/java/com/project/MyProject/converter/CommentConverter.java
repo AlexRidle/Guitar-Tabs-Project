@@ -34,10 +34,6 @@ public class CommentConverter implements DtoEntityConverter<CommentDto, Comment>
     public Comment convertToDbo(final CommentDto commentDto) {
         final Comment comment = new Comment();
         BeanUtils.copyProperties(commentDto, comment);
-        comment.setUser(userRepository.findByUsername(SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName()));
         comment.setTabs(tabsRepository.findById(commentDto.getTabsId()).get());
         return comment;
     }

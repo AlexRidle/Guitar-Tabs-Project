@@ -4,6 +4,7 @@ import com.project.MyProject.repository.UserRepository;
 import com.project.MyProject.service.MockData;
 import com.project.MyProject.dto.user.UserDto;
 import com.project.MyProject.entity.User;
+import com.project.MyProject.service.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -11,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.vaadin.spring.security.VaadinSecurity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -26,6 +28,9 @@ public class UserConverterTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private UserService userService;
 
     @Before
     public void init() {

@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.vaadin.spring.security.VaadinSecurity;
 
 import java.util.Optional;
 
@@ -35,6 +36,12 @@ public class TabServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private UserService userService;
+
+    @Mock
+    private VaadinSecurity vaadinSecurity;
 
     @Spy
     private TabsConverter tabsConverter;

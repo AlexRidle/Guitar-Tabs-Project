@@ -7,5 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateCommentDto {
     private long tabsId;
+    private String username;
     private String commentBody;
 }
