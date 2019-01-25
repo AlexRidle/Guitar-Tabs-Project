@@ -4,6 +4,7 @@ import com.project.MyProject.entity.Tabs;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.service.TabsService;
 import com.project.MyProject.service.UserService;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;

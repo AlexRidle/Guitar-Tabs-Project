@@ -6,20 +6,18 @@ import com.project.MyProject.UI.window.EditTabWindow;
 import com.project.MyProject.UI.window.TabWindow;
 import com.project.MyProject.dto.comment.CommentDto;
 import com.project.MyProject.dto.user.LoginDto;
-import com.project.MyProject.dto.user.UserDto;
-import com.project.MyProject.entity.Comment;
 import com.project.MyProject.entity.Tabs;
-import com.project.MyProject.repository.CommentRepository;
 import com.project.MyProject.repository.TabsRepository;
 import com.project.MyProject.service.CommentService;
 import com.project.MyProject.service.TabsService;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.Binder;
+import com.vaadin.data.provider.DataProvider;
+import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.shared.ui.MarginInfo;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.spring.navigator.SpringNavigator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Grid;
@@ -27,16 +25,10 @@ import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.vaadin.spring.security.VaadinSecurity;
 
 import java.util.List;
@@ -73,17 +65,20 @@ public class TestUi extends UI {
 
     Binder<LoginDto> binder = new Binder<>();
     LoginDto loginDto = new LoginDto();
+    ListDataProvider<Tabs> dataProvider;
 
     @Override
     protected void init(VaadinRequest request) {
         setSizeFull();
+        List<Tabs> tabs = tabsRepository.findAll();
+        dataProvider = DataProvider.ofCollection(tabs);
 
+        grid.setDataProvider(dataProvider);
         grid.setSizeFull();
         grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addColumn(Tabs::getArtist).setCaption("Artist");
         grid.addColumn(Tabs::getTitle).setCaption("Title");
         grid.addColumn(Tabs::getTabsBody).setCaption("Tabs");
-        List<Tabs> tabs = tabsRepository.findAll();
         grid.setItems(tabs);
         grid.addSelectionListener(selection -> {
             if(vaadinSecurity.isAuthenticated()) {
@@ -153,7 +148,7 @@ public class TestUi extends UI {
                 .bind(LoginDto::getUsername,LoginDto::setUsername);
         binder.forField(password)
                 .withValidator(new StringLengthValidator("Should be not null",1,50))
-                .bind(LoginDto::getUsername,LoginDto::setUsername);
+                .bind(LoginDto::getPassword,LoginDto::setPassword);
 
         setContent(mainLayout);
     }
@@ -163,9 +158,9 @@ public class TestUi extends UI {
             if(binder.isValid()){
                 binder.writeBean(loginDto);
                 vaadinSecurity.login(loginDto.getUsername(), loginDto.getPassword());
-                username.setValue("");
-                password.setValue("");
                 helloLabel.setValue("Hello, " + vaadinSecurity.getAuthentication().getName() + "!");
+                password.setValue("");
+                username.setValue("");
                 addTab.setEnabled(true);
             } else {
                 Notification.show("Enter username and password!", Notification.Type.WARNING_MESSAGE);
@@ -204,13 +199,13 @@ public class TestUi extends UI {
     }
 
     private void addTabButtonClick(Button.ClickEvent e) {
-        CreateTabWindow createTabWindow = new CreateTabWindow(tabsService, vaadinSecurity);
+        CreateTabWindow createTabWindow = new CreateTabWindow(tabsService, vaadinSecurity, dataProvider);
         UI.getCurrent().addWindow(createTabWindow);
     }
 
     private void editTabButtonClick(Button.ClickEvent e) {
         Tabs tabs = grid.getSelectedItems().iterator().next();
-        EditTabWindow editTabWindow = new EditTabWindow(tabs, tabsService, vaadinSecurity);
+        EditTabWindow editTabWindow = new EditTabWindow(tabs, tabsService, vaadinSecurity, dataProvider);
         UI.getCurrent().addWindow(editTabWindow);
     }
 
