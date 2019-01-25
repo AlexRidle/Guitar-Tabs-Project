@@ -27,12 +27,6 @@
             <column name="tabs_body" value="hidden tabs body"/>
             <column name="hidden" value="1"/>
         </insert>
-        <insert tableName="comment">
-            <column name="id" valueNumeric="1"/>
-            <column name="user_id" valueNumeric="1"/>
-            <column name="tabs_id" valueNumeric="1"/>
-            <column name="comment_body" value="comment to tab 1"/>
-        </insert>
     </changeSet>
     <changeSet author="bely" id="1.1">
         <insert tableName="user">
@@ -58,12 +52,6 @@
             <column name="title" value="title root"/>
             <column name="tabs_body" value="hidden root tabs body"/>
             <column name="hidden" value="1"/>
-        </insert>
-        <insert tableName="comment">
-            <column name="id" valueNumeric="2"/>
-            <column name="user_id" valueNumeric="2"/>
-            <column name="tabs_id" valueNumeric="2"/>
-            <column name="comment_body" value="comment to tab 2"/>
         </insert>
     </changeSet>
 </databaseChangeLog>
